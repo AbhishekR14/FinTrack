@@ -90,16 +90,17 @@ const Signin: React.FC = () => {
                 <button
                   type="submit"
                   className="flex justify-center w-full mt-6 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-pink-500 rounded-md shadow-sm hover:from-pink-500 hover:to-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                  onClick={async () => {
+                  onClick={async (e) => {
+                    e.preventDefault();
                     setLoading("Validating your credentials...");
                     const res = await signIn("credentials", {
                       email,
                       password,
                       redirect: false,
-                      callbackUrl: "/home",
                     });
                     if (!res?.error) {
                       setLoading("");
+                      router.push("/home");
                     } else {
                       setLoading("Invalid credentials. Try again!");
                       setTimeout(() => {

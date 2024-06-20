@@ -8,7 +8,7 @@ export const NEXT_AUTH_CONFIG = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials: any) {
@@ -25,9 +25,8 @@ export const NEXT_AUTH_CONFIG = {
             name: user.name,
             email: user.email,
           };
-        } else {
-          return null;
         }
+        return null;
       },
     }),
     GoogleProvider({
@@ -43,7 +42,7 @@ export const NEXT_AUTH_CONFIG = {
   callbacks: {
     session: ({ session, token }: any) => {
       if (session.user) {
-        session.user.id = token.uid;
+        session.user.id = token.sub;
       }
       return session;
     },
