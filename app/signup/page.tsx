@@ -7,7 +7,7 @@ import {
 } from "../../store/atoms/auth";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
-import { signup, signupWithProvider } from "../api/user/actions/user";
+import { signup } from "../api/user/actions/user";
 import { signIn } from "next-auth/react";
 const Signup: React.FC = () => {
   const setemail = useSetRecoilState(emailAtoms);

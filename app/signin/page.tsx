@@ -4,7 +4,6 @@ import { signIn } from "next-auth/react";
 import { emailAtoms, passwordAtom, loadingAtom } from "../../store/atoms/auth";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
-import { signupWithProvider } from "@/api/user/actions/user";
 const Signin: React.FC = () => {
   const setemail = useSetRecoilState(emailAtoms);
   const email = useRecoilValue(emailAtoms);
