@@ -1,9 +1,8 @@
+"use client";
 import React from "react";
+import { useSession } from "next-auth/react";
 
-const SignInPage: React.FC = () => {
-  return (
-    <div>HI</div>
-  );
-};
-
-export default SignInPage;
+export default function Home() {
+  const session = useSession();
+  return <div className="text-white">Hi:{JSON.stringify(session)}</div>;
+}
