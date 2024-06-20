@@ -1,24 +1,29 @@
 "use client";
-
-import { signIn } from "next-auth/react";
-import { emailAtoms, passwordAtom, loadingAtom } from "../../store/atoms/auth";
+import {
+  emailAtoms,
+  passwordAtom,
+  loadingAtom,
+  nameAtom,
+} from "../../store/atoms/auth";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
-import { signupWithProvider } from "@/api/user/actions/user";
-const Signin: React.FC = () => {
+import { signup, signupWithProvider } from "../api/user/actions/user";
+import { signIn } from "next-auth/react";
+const Signup: React.FC = () => {
   const setemail = useSetRecoilState(emailAtoms);
   const email = useRecoilValue(emailAtoms);
   const setPassword = useSetRecoilState(passwordAtom);
   const password = useRecoilValue(passwordAtom);
   const router = useRouter();
   const [loading, setLoading] = useRecoilState(loadingAtom);
+  const [name, setName] = useRecoilState(nameAtom);
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="m-2 flex flex-col lg:flex-row w-full max-w-4xl bg-gray-800 rounded-lg shadow-md">
         <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-8 bg-gradient-to-r from-indigo-700 to-purple-700 text-white rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none">
           <div className="flex items-center justify-center w-16 h-16 mb-4 bg-white rounded-full">
             <img
-              src="public/Logo.png"
+              src="/public/Logo.png"
               alt="FinTrack Logo"
               className="w-10 h-10"
             />
@@ -33,24 +38,38 @@ const Signin: React.FC = () => {
             help you better understand your money habits.
           </p>
           <div className="flex mt-auto text-sm">
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <div
               className="pl-2 underline cursor-pointer"
               onClick={() => {
-                router.push("/signup");
+                router.push("/signin");
               }}
             >
-              Signup
+              Signin
             </div>
           </div>
         </div>
         <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-8">
           <div className="w-full max-w-md space-y-8">
             <div className="flex flex-col items-center">
-              <h2 className="text-3xl font-extrabold text-white">Sign In</h2>
+              <h2 className="text-3xl font-extrabold text-white">Sign Up</h2>
             </div>
             <form className="mt-8">
               <div className="rounded-md shadow-sm">
+                <div>
+                  <label className="sr-only">Name</label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    className="block w-full px-3 py-2 border rounded-t-md placeholder-gray-500 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm bg-gray-700 border-gray-600 text-white"
+                    placeholder="Name"
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                  />
+                </div>
                 <div>
                   <label htmlFor="email-address" className="sr-only">
                     Email address
@@ -91,24 +110,22 @@ const Signin: React.FC = () => {
                   type="submit"
                   className="flex justify-center w-full mt-6 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-pink-500 rounded-md shadow-sm hover:from-pink-500 hover:to-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                   onClick={async () => {
-                    setLoading("Validating your credentials...");
-                    const res = await signIn("credentials", {
-                      email,
-                      password,
-                      redirect: false,
-                      callbackUrl: "/home",
-                    });
-                    if (!res?.error) {
-                      setLoading("");
-                    } else {
-                      setLoading("Invalid credentials. Try again!");
-                      setTimeout(() => {
+                    try {
+                      setLoading("Validating your details...");
+                      const res = await signup(name, email, password);
+                      if (res === "User created") {
+                        router.push("/home");
                         setLoading("");
-                      }, 4000);
-                    }
+                      } else {
+                        setLoading(res + " Try again!");
+                        setTimeout(() => {
+                          setLoading("");
+                        }, 3000);
+                      }
+                    } catch {}
                   }}
                 >
-                  Sign In
+                  Sign Up
                 </button>
               </div>
               <div className="flex items-center justify-center mt-2 mb-6 space-x-2">
@@ -179,7 +196,7 @@ const Signin: React.FC = () => {
                       </g>
                     </g>
                   </svg>
-                  Sign in with Google
+                  Sign Up with Google
                 </button>
                 <button
                   type="button"
@@ -226,7 +243,7 @@ const Signin: React.FC = () => {
                       </g>
                     </g>
                   </svg>
-                  Sign in with GitHub
+                  Sign Up with GitHub
                 </button>
               </div>
             </form>
@@ -237,4 +254,4 @@ const Signin: React.FC = () => {
   );
 };
 
-export default Signin;
+export default Signup;
