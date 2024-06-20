@@ -40,6 +40,17 @@ export const NEXT_AUTH_CONFIG = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
+    jwt: async ({ token, user }: any) => {
+      if (user) {
+        const res = await prisma.users.findFirst({
+          where: { email: user.email },
+        });
+        if (res) {
+          token.sub = res.id;
+        }
+      }
+      return token;
+    },
     session: ({ session, token }: any) => {
       if (session.user) {
         session.user.id = token.sub;
