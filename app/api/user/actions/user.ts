@@ -22,26 +22,3 @@ export async function signup(name: string, email: string, password: string) {
     return "Error while creating the user.";
   }
 }
-
-export async function signupWithProvider() {
-  try {
-    const session = await getUser();
-    const res = await prisma.users.findFirst({
-      where: {
-        email: session.user.email,
-      },
-    });
-    if (!res) {
-      await prisma.users.create({
-        data: {
-          name: session.user.name,
-          email: session.user.email,
-          password: "Logged In Via Google/Github",
-        },
-      });
-      return "User created";
-    }
-  } catch (e) {
-    return "Error while creating the user.";
-  }
-}

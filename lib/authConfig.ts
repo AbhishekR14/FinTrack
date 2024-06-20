@@ -47,6 +47,17 @@ export const NEXT_AUTH_CONFIG = {
         });
         if (res) {
           token.sub = res.id;
+        } else {
+          const res = await prisma.users.create({
+            data: {
+              name: user.name,
+              email: user.email,
+              password: "Logged In Via Google/Github",
+            },
+          });
+          if (res) {
+            token.sub = res.id;
+          }
         }
       }
       return token;
