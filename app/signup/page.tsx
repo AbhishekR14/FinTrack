@@ -9,6 +9,7 @@ import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 import { signup } from "../api/user/actions/user";
 import { signIn } from "next-auth/react";
+
 const Signup: React.FC = () => {
   const setemail = useSetRecoilState(emailAtoms);
   const email = useRecoilValue(emailAtoms);
@@ -22,11 +23,7 @@ const Signup: React.FC = () => {
       <div className="m-2 flex flex-col lg:flex-row w-full max-w-4xl bg-gray-800 rounded-lg shadow-md">
         <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-8 bg-gradient-to-r from-indigo-700 to-purple-700 text-white rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none">
           <div className="flex items-center justify-center w-16 h-16 mb-4 bg-white rounded-full">
-            <img
-              src="/public/Logo.png"
-              alt="FinTrack Logo"
-              className="w-10 h-10"
-            />
+            <img src="/Logo.png" alt="FinTrack Logo" className="w-10 h-10" />
           </div>
           <h1 className="mb-2 text-4xl font-bold text-center">FinTrack</h1>
           <p className="mb-4 text-lg text-center">
