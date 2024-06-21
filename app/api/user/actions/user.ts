@@ -1,12 +1,5 @@
 "use server";
 import prisma from "../../../../db";
-import { getServerSession } from "next-auth";
-import { NEXT_AUTH_CONFIG } from "../../../../lib/authConfig";
-
-async function getUser() {
-  const session = await getServerSession(NEXT_AUTH_CONFIG);
-  return session;
-}
 
 export async function signup(name: string, email: string, password: string) {
   try {
