@@ -34,17 +34,17 @@ const Signup: React.FC = () => {
             track your spending by category and receive monthly insights that
             help you better understand your money habits.
           </p>
-          <button className="flex mt-auto text-sm">
+          <div className="flex mt-auto text-sm">
             Already have an account?{" "}
-            <div
+            <button
               className="pl-2 underline cursor-pointer"
               onClick={() => {
                 router.push("/signin");
               }}
             >
               Signin
-            </div>
-          </button>
+            </button>
+          </div>
         </div>
         <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-8">
           <div className="w-full max-w-md space-y-8">

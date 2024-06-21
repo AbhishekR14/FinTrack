@@ -13,33 +13,8 @@ const Signin: React.FC = () => {
   const [loading, setLoading] = useRecoilState(loadingAtom);
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="m-2 flex flex-col lg:flex-row w-full max-w-4xl bg-gray-800 rounded-lg shadow-md">
-        <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-8 bg-gradient-to-r from-indigo-700 to-purple-700 text-white rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none">
-          <div className="flex items-center justify-center w-16 h-16 mb-4 bg-white rounded-full">
-            <img src="/Logo.png" alt="FinTrack Logo" className="w-10 h-10" />
-          </div>
-          <h1 className="mb-2 text-4xl font-bold text-center">FinTrack</h1>
-          <p className="mb-4 text-lg text-center">
-            Finance Tracking Made Easy!
-          </p>
-          <p className="mb-4 text-lg text-center">
-            Track your monthly spending and more. Review your transactions,
-            track your spending by category and receive monthly insights that
-            help you better understand your money habits.
-          </p>
-          <button className="flex mt-auto text-sm">
-            Don&apos;t have an account?{" "}
-            <div
-              className="pl-2 underline cursor-pointer"
-              onClick={() => {
-                router.push("/");
-              }}
-            >
-              Signup
-            </div>
-          </button>
-        </div>
-        <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-8">
+      <div className="m-2 flex lg:flex-row w-full max-w-lg bg-gray-800 rounded-lg shadow-md">
+        <div className="flex items-center justify-center w-full p-8">
           <div className="w-full max-w-md space-y-8">
             <div className="flex flex-col items-center">
               <h2 className="text-3xl font-extrabold text-white">Sign In</h2>
@@ -106,6 +81,17 @@ const Signin: React.FC = () => {
                 >
                   Sign In
                 </button>
+                <div className="flex mt-2 justify-center text-white text-sm">
+                  Don&apos;t have an account?{" "}
+                  <button
+                    className="pl-2 underline cursor-pointer"
+                    onClick={() => {
+                      router.push("/");
+                    }}
+                  >
+                    Signup
+                  </button>
+                </div>
               </div>
               <div className="flex items-center justify-center mt-2 mb-6 space-x-2">
                 <span className="text-sm font-medium text-gray-300">
