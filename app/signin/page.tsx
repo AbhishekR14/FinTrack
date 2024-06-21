@@ -28,7 +28,7 @@ const Signin: React.FC = () => {
             help you better understand your money habits.
           </p>
           <div className="flex mt-auto text-sm">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <div
               className="pl-2 underline cursor-pointer"
               onClick={() => {
