@@ -1,13 +1,9 @@
-/**
- * @type {import('next').NextConfig}
- */
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
-  images: {
-    loader: "akamai",
-    path: "",
-  },
-  assetPrefix: "./",
+  reactStrictMode: true,
+
+  // Add basePath
+  basePath: "/github-pages",
 };
 
-export default nextConfig;
+module.exports = nextConfig;
