@@ -6,4 +6,4 @@ const nextConfig = {
   basePath: "/github-pages",
 };
 
-module.exports = nextConfig;
+export default nextConfig;
