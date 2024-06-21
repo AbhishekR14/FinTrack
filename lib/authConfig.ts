@@ -2,6 +2,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import prisma from "../db/index";
+import { z } from "zod";
+import { signupInputsSchema } from "@/api/user/actions/schema";
 
 export const NEXT_AUTH_CONFIG = {
   providers: [
@@ -48,15 +50,19 @@ export const NEXT_AUTH_CONFIG = {
         if (res) {
           token.sub = res.id;
         } else {
-          const res = await prisma.users.create({
-            data: {
-              name: user.name,
-              email: user.email,
-              password: "Logged In Via Google/Github",
-            },
-          });
-          if (res) {
-            token.sub = res.id;
+          const data = {
+            name: user.name,
+            email: user.email,
+            password: "Logged In Via Google/Github",
+          };
+          const success = signupInputsSchema.safeParse(data);
+          if (success) {
+            const res = await prisma.users.create({
+              data: data,
+            });
+            if (res) {
+              token.sub = res.id;
+            }
           }
         }
       }
