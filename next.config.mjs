@@ -1,8 +1,13 @@
-/** @type {import('next').NextConfig} */
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
-  basePath: "/FinTrack",
   output: "export",
-  distDir: "out",
+  images: {
+    loader: "akamai",
+    path: "",
+  },
+  assetPrefix: "./",
 };
 
 export default nextConfig;
