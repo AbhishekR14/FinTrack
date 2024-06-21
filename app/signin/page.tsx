@@ -27,17 +27,17 @@ const Signin: React.FC = () => {
             track your spending by category and receive monthly insights that
             help you better understand your money habits.
           </p>
-          <div className="flex mt-auto text-sm">
+          <button className="flex mt-auto text-sm">
             Don&apos;t have an account?{" "}
             <div
               className="pl-2 underline cursor-pointer"
               onClick={() => {
-                router.push("/signup");
+                router.push("/");
               }}
             >
               Signup
             </div>
-          </div>
+          </button>
         </div>
         <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-8">
           <div className="w-full max-w-md space-y-8">
