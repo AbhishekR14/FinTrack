@@ -5,6 +5,14 @@ export type addTranscationType = {
   type: string;
   note: string;
 };
+export type addTestTranscationType = {
+  userId: string;
+  amount: number;
+  category: string;
+  type: string;
+  note: string;
+  testdata: boolean;
+};
 
 export type updateTranscationType = {
   id: string;
@@ -14,4 +22,5 @@ export type updateTranscationType = {
   category: string;
   type: string;
   note: string;
+  testdata: boolean;
 };
