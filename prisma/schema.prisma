@@ -20,8 +20,9 @@ model Transcations {
   user Users @relation(fields: [userId], references: [id])
   userId String
   amount Float
-  date DateTime
+  date DateTime @default(now())
   category String
   note String? 
   type String
+  testdata Boolean @default(false)
 }
