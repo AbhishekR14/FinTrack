@@ -1,11 +1,11 @@
-export type addTranscationType = {
+export type addTransactionType = {
   userId: string;
   amount: number;
   category: string;
   type: string;
   note: string;
 };
-export type addTestTranscationType = {
+export type addTestTransactionType = {
   userId: string;
   amount: number;
   category: string;
@@ -14,7 +14,7 @@ export type addTestTranscationType = {
   testdata: boolean;
 };
 
-export type updateTranscationType = {
+export type updateTransactionType = {
   id: string;
   userId: string;
   amount: number;

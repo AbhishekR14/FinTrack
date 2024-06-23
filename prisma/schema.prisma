@@ -12,10 +12,10 @@ model Users{
   name String
   email String @unique
   password String
-  transcations Transcations[]
+  transactions Transactions[]
 }
 
-model Transcations {
+model Transactions {
   id String @id @default(uuid())
   user Users @relation(fields: [userId], references: [id])
   userId String
