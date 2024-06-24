@@ -2,7 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import prisma from "../db/index";
-import { signupInputsSchema } from "@/app/api/user/actions/user";
+import { signupInputsSchema } from "@/app/api/user/actions/schema";
 
 export const NEXT_AUTH_CONFIG = {
   providers: [
