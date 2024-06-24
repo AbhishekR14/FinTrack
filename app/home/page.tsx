@@ -3,7 +3,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Spinner from "../../components/Spinner";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import NavBar from "@/components/NavBar";
 
 export default function Home() {
   const session = useSession();
@@ -20,9 +20,13 @@ export default function Home() {
     return <></>;
   }
   return (
-    <div className="text-red">
+    <div className="">
+      <NavBar
+        profilePicture={session.data?.user?.image || "/default-avatar.png"}
+        userName={session.data?.user?.name || ""}
+        email={session.data?.user?.email || ""}
+      />
       Hi test:{JSON.stringify(session)}
-      <ThemeToggle />
     </div>
   );
 }
