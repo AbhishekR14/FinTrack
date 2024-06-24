@@ -20,12 +20,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" type="image/png+xml" href="/Logo.png" />
       </head>
-      <body
-        className={
-          inter.className +
-          "dark min-h-screen bg-gradient-to-r from-gray-900 via-purple-900 to-black"
-        }
-      >
+      <body className={inter.className}>
         <Providers>{children}</Providers>
       </body>
     </html>

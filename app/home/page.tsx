@@ -3,6 +3,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Spinner from "../../components/Spinner";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function Home() {
   const session = useSession();
@@ -18,5 +19,10 @@ export default function Home() {
     router.push("/");
     return <></>;
   }
-  return <div className="text-white">Hi test:{JSON.stringify(session)}</div>;
+  return (
+    <div className="text-red">
+      Hi test:{JSON.stringify(session)}
+      <ThemeToggle />
+    </div>
+  );
 }
