@@ -24,3 +24,13 @@ export type updateTransactionType = {
   note: string;
   testdata: boolean;
 };
+
+export type getTransactionsType = {
+  id: string;
+  userId: string;
+  amount: number;
+  date: Date;
+  category: string;
+  type: string;
+  note: string;
+};
