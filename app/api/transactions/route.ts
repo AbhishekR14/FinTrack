@@ -22,9 +22,7 @@ export async function GET(req: NextRequest) {
         getMonthNumber(month)
       );
       if (transactions) {
-        return new NextResponse(JSON.stringify(transactions), {
-          status: 200,
-        });
+        return NextResponse.json(transactions, { status: 200 });
       }
     } else if (year) {
       const transactions = await getAllTransactionsByYear(
@@ -32,16 +30,12 @@ export async function GET(req: NextRequest) {
         parseInt(year)
       );
       if (transactions) {
-        return new NextResponse(JSON.stringify(transactions), {
-          status: 200,
-        });
+        return NextResponse.json(transactions, { status: 200 });
       }
     } else {
       const transactions = await getAllTransactions(session.user.id);
       if (transactions) {
-        return new NextResponse(JSON.stringify(transactions), {
-          status: 200,
-        });
+        return NextResponse.json(transactions, { status: 200 });
       }
     }
     return new NextResponse("Incorrect Inputs", { status: 403 });

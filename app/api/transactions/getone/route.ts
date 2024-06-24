@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
         where: { userId: session.user.id, id: id },
       });
       if (res) {
-        return new NextResponse(JSON.stringify(res), { status: 200 });
+        return NextResponse.json(res, { status: 200 });
       }
     }
     return new NextResponse("Please provide a valid transaction id", {

@@ -6,7 +6,6 @@ import { NEXT_AUTH_CONFIG } from "../../../../lib/authConfig";
 import {
   addTransactionType,
   updateTransactionType,
-  getTransactionsType,
 } from "../types";
 
 export async function postTransaction(data: addTransactionType) {
