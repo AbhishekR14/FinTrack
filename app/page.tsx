@@ -8,7 +8,8 @@ import {
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 import { signup } from "./api/user/actions/user";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import Spinner from "../components/Spinner";
 
 const Signup: React.FC = () => {
   const setemail = useSetRecoilState(emailAtoms);
@@ -18,6 +19,18 @@ const Signup: React.FC = () => {
   const router = useRouter();
   const [loading, setLoading] = useRecoilState(loadingAtom);
   const [name, setName] = useRecoilState(nameAtom);
+  const session = useSession();
+  if (session.status === "loading") {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+  if (session.status === "authenticated") {
+    router.push("/home");
+    return <></>;
+  }
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="m-2 flex flex-col lg:flex-row w-full max-w-4xl bg-gray-800 rounded-lg shadow-md">
