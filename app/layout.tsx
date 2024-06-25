@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "FinTrack",
-  description: "FinTrack - Finance Trackin Web App",
+  description: "FinTrack - Finance Tracking Web Application",
 };
 
 export default function RootLayout({
