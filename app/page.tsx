@@ -9,7 +9,7 @@ import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 import { signup } from "./api/user/actions/user";
 import { signIn, useSession } from "next-auth/react";
-import Spinner from "../components/Spinner";
+import Spinner from "../components/ui/Spinner";
 
 const Signup: React.FC = () => {
   const setemail = useSetRecoilState(emailAtoms);

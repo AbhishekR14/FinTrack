@@ -3,7 +3,7 @@ import { signIn, useSession } from "next-auth/react";
 import { emailAtoms, passwordAtom, loadingAtom } from "../../store/atoms/auth";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/ui/Spinner";
 
 const Signin: React.FC = () => {
   const setemail = useSetRecoilState(emailAtoms);

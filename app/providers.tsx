@@ -1,7 +1,7 @@
 "use client";
 import { RecoilRoot } from "recoil";
 import { SessionProvider } from "next-auth/react";
-import { ThemeProvider } from "@/components/ThemeProviders";
+import { ThemeProvider } from "@/components/ui/ThemeProviders";
 
 export default function Providers({
   children,

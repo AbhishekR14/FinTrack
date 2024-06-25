@@ -2,8 +2,8 @@
 import React from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Spinner from "../../components/Spinner";
-import NavBar from "@/components/NavBar";
+import Spinner from "../../components/ui/Spinner";
+import NavBar from "@/components/ui/NavBar";
 
 export default function Home() {
   const session = useSession();
