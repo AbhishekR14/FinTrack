@@ -1,4 +1,4 @@
-export default () => {
+const Footer = () => {
   const year = new Date().getFullYear();
   return (
     <footer className="bg-white dark:bg-gray-900">
@@ -76,3 +76,7 @@ export default () => {
     </footer>
   );
 };
+
+Footer.displayName = "Footer";
+
+export default Footer;
