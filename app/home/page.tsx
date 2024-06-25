@@ -20,13 +20,13 @@ export default function Home() {
     return <></>;
   }
   return (
-    <div className="">
+    <div className="h-screen">
       <NavBar
         profilePicture={session.data?.user?.image || "/default-avatar.png"}
         userName={session.data?.user?.name || ""}
         email={session.data?.user?.email || ""}
       />
-      Hi test:{JSON.stringify(session)}
+      Hi World
     </div>
   );
 }

@@ -45,14 +45,13 @@ export function ThemeToggle() {
 
       {isDropdownOpen && (
         <div
-          className="absolute right-0 z-50 mt-2 w-48 bg-white rounded-md shadow-lg dark:bg-gray-700"
+          className="absolute right-0 z-50 mt-2 w-24 bg-white rounded-md shadow-lg dark:bg-gray-700"
           id="user-dropdown"
         >
           <ul className="py-2" aria-labelledby="user-menu-button">
             <li>
               <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                className="block  px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 onClick={() => {
                   setTheme("light");
                   toggleDropdown();
@@ -66,7 +65,6 @@ export function ThemeToggle() {
           <ul className="py-2" aria-labelledby="user-menu-button">
             <li>
               <a
-                href="#"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 onClick={() => {
                   setTheme("dark");
@@ -80,7 +78,6 @@ export function ThemeToggle() {
           <ul className="py-2" aria-labelledby="user-menu-button">
             <li>
               <a
-                href="#"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 onClick={() => {
                   setTheme("system");
