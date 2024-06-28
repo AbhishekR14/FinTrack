@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import MonthlySummary from "@/components/ui/MonthlySummary";
 import LineGraph from "@/components/ui/LineGraph";
 import PieChart from "@/components/ui/PieChart";
-import DetailedSummary from "@/components/ui/DetailedSummary";
 import CurrentMonthSummary from "@/components/ui/CurrentMonthSummay";
+import { DataTableDemo } from "@/components/ui/DetailedSummary";
 
 export default function Home() {
   const session = useSession();
@@ -66,8 +66,8 @@ export default function Home() {
             <PieChart />
           </div>
         </div>
-        <div className="mt-8">
-          <DetailedSummary />
+        <div className="mt-8 ">
+          <DataTableDemo />
         </div>
       </div>
     </div>

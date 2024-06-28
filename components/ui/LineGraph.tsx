@@ -10,7 +10,7 @@ const LineGraph = () => {
       backgroundColor: "",
     },
     title: {
-      text: "Line Graph",
+      text: "Category Monthly Summary",
       style: {
         color: theme === "dark" ? "#FFFFFF" : "#000000",
       },

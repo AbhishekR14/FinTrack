@@ -9,7 +9,7 @@ const CurrentMonthSummary = ({ income, categories }: PropsTypes) => {
     <div className="p-6 dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 hover:bg-gray-100 hover:dark:bg-gray-700">
       <div className="flex justify-between items-center mb-4">
         <button className="text-lg">&lt;</button>
-        <h2 className="text-xl font-bold">July</h2>
+        <h2 className="text-xl font-bold cursor-pointer">July</h2>
         <button className="text-lg">&gt;</button>
       </div>
       <div className="mb-4">

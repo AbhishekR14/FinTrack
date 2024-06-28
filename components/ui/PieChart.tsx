@@ -10,7 +10,7 @@ const PieChart = () => {
       backgroundColor: "",
     },
     title: {
-      text: "Pie Chart",
+      text: "Category Summary",
       style: {
         color: theme === "dark" ? "#FFFFFF" : "#000000",
       },
