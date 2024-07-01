@@ -36,7 +36,7 @@ export default function Home() {
   }
   if (!session || session.status === "unauthenticated") {
     router.push("/");
-    return <></>;
+    return <div className="h-screen"></div>;
   }
   return (
     <div className="h-min-screen">

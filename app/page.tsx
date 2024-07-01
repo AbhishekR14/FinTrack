@@ -29,7 +29,7 @@ const Signup: React.FC = () => {
   }
   if (session.status === "authenticated") {
     router.push("/home");
-    return <></>;
+    return <div className="h-screen"></div>;
   }
   return (
     <div className="flex items-center justify-center min-h-screen">
