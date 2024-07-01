@@ -52,25 +52,9 @@ export const columns: ColumnDef<transactionsType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className="pl-4 lowercase">{row.getValue("date")}</div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => {
-                console.log(row.original.id);
-              }}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => (
+      <div className="pl-4 lowercase">{row.getValue("date")}</div>
+    ),
   },
   {
     accessorKey: "amount",
@@ -92,23 +76,8 @@ export const columns: ColumnDef<transactionsType>[] = [
         style: "currency",
         currency: "INR",
       }).format(amount);
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className="pl-4 capitalize">{formatted}</div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => {
-                console.log(row.original.id);
-              }}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+
+      return <div className="pl-4 font-medium">{formatted}</div>;
     },
   },
   {
@@ -124,25 +93,9 @@ export const columns: ColumnDef<transactionsType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className="capitalize pl-4">{row.getValue("category")}</div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => {
-                console.log(row.original.id);
-              }}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => (
+      <div className="capitalize pl-4">{row.getValue("category")}</div>
+    ),
   },
   {
     accessorKey: "type",
@@ -157,25 +110,9 @@ export const columns: ColumnDef<transactionsType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className="pl-4 capitalize">{row.getValue("type")}</div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => {
-                console.log(row.original.id);
-              }}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => (
+      <div className="pl-4 capitalize">{row.getValue("type")}</div>
+    ),
   },
   {
     accessorKey: "note",
@@ -190,25 +127,9 @@ export const columns: ColumnDef<transactionsType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className="pl-4 capitalize">{row.getValue("note")}</div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => {
-                console.log(row.original.id);
-              }}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => (
+      <div className="pl-4 capitalize">{row.getValue("note")}</div>
+    ),
   },
   {
     id: "actions",
@@ -248,8 +169,7 @@ export default function DetailedMonthlySummary({
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
-      note: false,
-      actions: false,
+      category: false,
       type: false,
     });
   const monthlyAllTransactions = useRecoilValue(monthlyAllTransactionsAtom);
