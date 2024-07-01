@@ -35,15 +35,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { transactionsType } from "@/app/home/types";
-import { useRecoilState } from "recoil";
-import { allMonthlyTransactionsAtom } from "@/store/atoms/transactions";
-import { getAllTransactionsByMonth } from "@/app/api/transactions/actions/transactions";
-import { getMonthNumber } from "@/lib/misc";
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString();
-};
+import { useRecoilValue } from "recoil";
+import { monthlyAllTransactionsAtom } from "@/store/atoms/transactions";
 
 export const columns: ColumnDef<transactionsType>[] = [
   {
@@ -167,13 +160,11 @@ export const columns: ColumnDef<transactionsType>[] = [
 ];
 
 export default function DetailedMonthlySummary({
-  user,
   month,
-  year,
+  loading,
 }: {
-  user: any;
   month: string;
-  year: string;
+  loading: boolean;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] =
@@ -181,33 +172,18 @@ export default function DetailedMonthlySummary({
       category: false,
       type: false,
     });
-  const [allMonthlyTransactions, setAllMonthlyTransactions] = useRecoilState(
-    allMonthlyTransactionsAtom
-  );
+  const monthlyAllTransactions = useRecoilValue(monthlyAllTransactionsAtom);
   const [loadingText, setLoadingText] = React.useState("");
-
-  async function callGetAllTransactions() {
-    const res = await getAllTransactionsByMonth(
-      user?.id || "",
-      parseInt(year),
-      getMonthNumber(month.toLowerCase())
-    );
-    setLoadingText("No Transactions this month!");
-    if (res) {
-      setAllMonthlyTransactions(
-        //@ts-ignore
-        res.map((transaction: any) => {
-          return { ...transaction, date: formatDate(transaction.date) };
-        })
-      );
-    }
-  }
   React.useEffect(() => {
-    setLoadingText("Loading your data...");
-    callGetAllTransactions();
-  }, []);
+    if (loading) {
+      setLoadingText("Loading your data...");
+    } else if (month && monthlyAllTransactions.length === 0) {
+      setLoadingText("No Transactions this month!");
+    }
+  }, [monthlyAllTransactions]);
+
   const table = useReactTable({
-    data: allMonthlyTransactions,
+    data: monthlyAllTransactions,
     columns,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
@@ -310,8 +286,10 @@ export default function DetailedMonthlySummary({
       </div>
       <div className="flex items-center justify-end space-x-2 py-2">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getState().pagination.pageIndex + 1} - {table.getPageCount()}{" "}
-          Page{table.getPageCount() > 1 ? "s" : ""}
+          {table.getPageCount() > 0
+            ? table.getState().pagination.pageIndex + 1
+            : 0}{" "}
+          - {table.getPageCount()} Page{table.getPageCount() > 1 ? "s" : ""}
         </div>
         <div className="space-x-2">
           <Button

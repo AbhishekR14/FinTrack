@@ -4,7 +4,7 @@ export const allTransactionsAtom = atom({
   key: "allTransactions",
   default: [],
 });
-export const allMonthlyTransactionsAtom = atom({
-  key: "allMonthlyTransactionsAtom",
+export const monthlyAllTransactionsAtom = atom({
+  key: "monthlyAllTransactionsAtom",
   default: [],
 });

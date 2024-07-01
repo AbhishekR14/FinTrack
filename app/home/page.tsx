@@ -10,10 +10,25 @@ import DetailedMonthlySummary from "@/components/ui/DetailedMonthlySummary";
 import PieChart from "@/components/ui/PieChart";
 import CurrentMonthSummary from "@/components/ui/CurrentMonthSummay";
 import { DetailedSummary } from "@/components/ui/DetailedSummary";
+import { useRecoilState } from "recoil";
+import { monthlyAllTransactionsAtom } from "@/store/atoms/transactions";
+import { getAllTransactionsByMonth } from "../api/transactions/actions/transactions";
+import { monthName } from "@/lib/misc";
+
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString();
+};
 
 export default function Home() {
   const session = useSession();
   const router = useRouter();
+  const [monthlyAllTransactions, setMonthlyAllTransactions] = useRecoilState(
+    monthlyAllTransactionsAtom
+  );
+  const [selectedMonth, setSelectedMonth] = React.useState(12);
+  const [selectedYear, setSelectedYear] = React.useState(0);
+  const [monthInfoLoading, setMonthInfoLoading] = React.useState(true);
   const income = 52;
   const categories = [
     { name: "Family", amount: 10911.0 },
@@ -27,6 +42,30 @@ export default function Home() {
     { name: "Shopping", amount: 1390.0 },
     { name: "Travel", amount: 160.0 },
   ];
+  async function callGetAllTransactions(month: number, year: number) {
+    const res = await getAllTransactionsByMonth(
+      //@ts-ignore
+      session.data?.user?.id || "",
+      year,
+      month
+    );
+    if (res) {
+      setMonthlyAllTransactions(
+        //@ts-ignore
+        res.map((transaction: any) => {
+          return { ...transaction, date: formatDate(transaction.date) };
+        })
+      );
+    }
+    setMonthInfoLoading(false);
+  }
+  React.useEffect(() => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    setSelectedYear(currentYear);
+    setSelectedMonth(currentMonth);
+    callGetAllTransactions(selectedMonth, selectedYear);
+  }, [selectedMonth, selectedYear]);
   if (session.status === "loading") {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -38,6 +77,7 @@ export default function Home() {
     router.push("/");
     return <div className="h-screen"></div>;
   }
+
   return (
     <div className="min-h-screen">
       <NavBar
@@ -71,9 +111,8 @@ export default function Home() {
           </div>
           <div className="col-span-1 ">
             <DetailedMonthlySummary
-              user={session.data?.user}
-              month="November"
-              year="2024"
+              month={monthName[selectedMonth]}
+              loading={monthInfoLoading}
             />
           </div>
           <div className="col-span-1">
