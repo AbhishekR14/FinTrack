@@ -3,10 +3,7 @@
 import { getServerSession } from "next-auth";
 import prisma from "../../../../db";
 import { NEXT_AUTH_CONFIG } from "../../../../lib/authConfig";
-import {
-  addTransactionType,
-  updateTransactionType,
-} from "../types";
+import { addTransactionType, updateTransactionType } from "../types";
 
 export async function postTransaction(data: addTransactionType) {
   try {
@@ -54,6 +51,7 @@ export async function getAllTransactions(userId: string) {
         type: true,
         note: true,
       },
+      orderBy: { date: "desc" },
     });
     if (res) {
       return res;
@@ -85,6 +83,7 @@ export async function getAllTransactionsByYear(userId: string, year: number) {
         type: true,
         note: true,
       },
+      orderBy: { date: "desc" },
     });
     if (res) {
       return res;
@@ -114,6 +113,7 @@ export async function getAllTransactionsByMonth(
         type: true,
         note: true,
       },
+      orderBy: { date: "desc" },
     });
     if (res) {
       return res;
