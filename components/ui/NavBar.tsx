@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect, useRef } from "react";
 import { signOut } from "next-auth/react";
 import { ThemeToggle } from "./ThemeToggle";

@@ -294,7 +294,8 @@ export function DetailedSummary({ user }: { user: any }) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          Total {table.getPageCount()} pages
+          {table.getState().pagination.pageIndex + 1} - {table.getPageCount()}{" "}
+          Page{table.getPageCount() > 1 ? "s" : ""}
         </div>
         <div className="space-x-2">
           <Button

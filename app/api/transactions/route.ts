@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-function getMonthNumber(month: string): number {
+export function getMonthNumber(month: string): number {
   const monthMap: { [key: string]: number } = {
     january: 0,
     jan: 0,

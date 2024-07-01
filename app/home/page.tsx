@@ -6,7 +6,7 @@ import Spinner from "../../components/ui/Spinner";
 import NavBar from "@/components/ui/NavBar";
 import { Button } from "@/components/ui/button";
 import MonthlySummary from "@/components/ui/MonthlySummary";
-import LineGraph from "@/components/ui/LineGraph";
+import DetailedMonthlySummary from "@/components/ui/DetailedMonthlySummary";
 import PieChart from "@/components/ui/PieChart";
 import CurrentMonthSummary from "@/components/ui/CurrentMonthSummay";
 import { DetailedSummary } from "@/components/ui/DetailedSummary";
@@ -39,7 +39,7 @@ export default function Home() {
     return <div className="h-screen"></div>;
   }
   return (
-    <div className="h-min-screen">
+    <div className="min-h-screen">
       <NavBar
         profilePicture={session.data?.user?.image || "/default-avatar.png"}
         userName={session.data?.user?.name || ""}
@@ -47,8 +47,21 @@ export default function Home() {
       />
       <div className="p-8">
         <div className="flex mb-4">
-          <Button variant={"secondary"}>Add Expense</Button>
-          <Button variant={"secondary"} className="ml-4">
+          <Button
+            variant={"secondary"}
+            onClick={() => {
+              router.push("/transaction/add?type=expense");
+            }}
+          >
+            Add Expense
+          </Button>
+          <Button
+            variant={"secondary"}
+            className="ml-4"
+            onClick={() => {
+              router.push("/transaction/add?type=income");
+            }}
+          >
             Add Income
           </Button>
         </div>
@@ -57,10 +70,14 @@ export default function Home() {
             <CurrentMonthSummary income={income} categories={categories} />
           </div>
           <div className="col-span-1 ">
-            <MonthlySummary />
+            <DetailedMonthlySummary
+              user={session.data?.user}
+              month="November"
+              year="2024"
+            />
           </div>
           <div className="col-span-1">
-            <LineGraph />
+            <MonthlySummary />
           </div>
           <div className="col-span-1 ">
             <PieChart />
