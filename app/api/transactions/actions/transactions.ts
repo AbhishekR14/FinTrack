@@ -38,6 +38,23 @@ export async function putTransactions(data: updateTransactionType) {
   }
 }
 
+export async function deleteTransaction(userId: string, id: string) {
+  try {
+    const session = await getServerSession(NEXT_AUTH_CONFIG);
+    if (!session) return false;
+    const res = await prisma.transactions.delete({
+      where: { id: id, userId: userId },
+    });
+    if (res) {
+      return true;
+    }
+    return false;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
+
 export async function getAllTransactions(userId: string) {
   try {
     const res = await prisma.transactions.findMany({
