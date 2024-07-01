@@ -192,6 +192,7 @@ export default function DetailedMonthlySummary({
       parseInt(year),
       getMonthNumber(month.toLowerCase())
     );
+    setLoadingText("No Transactions this month!");
     if (res) {
       setAllMonthlyTransactions(
         //@ts-ignore
@@ -254,7 +255,7 @@ export default function DetailedMonthlySummary({
         </DropdownMenu>
       </div>
       <div className="rounded-md border dark:border-gray-700 h-72 overflow-auto">
-        <Table className="border dark:border-gray-700 ">
+        <Table className="border dark:border-gray-700">
           <TableHeader className="border dark:border-gray-700">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
