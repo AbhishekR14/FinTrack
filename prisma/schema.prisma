@@ -24,5 +24,4 @@ model Transactions {
   category String
   note String? 
   type String
-  testdata Boolean @default(false)
 }
