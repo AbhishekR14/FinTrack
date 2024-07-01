@@ -37,13 +37,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { transactionsType } from "@/app/home/types";
+import { useRecoilState } from "recoil";
+import { allTransactionsAtom } from "@/store/atoms/transactions";
+import { getAllTransactions } from "@/app/api/transactions/actions/transactions";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return date.toLocaleDateString();
 };
-
-const data: transactionsType[] = [];
 
 export const columns: ColumnDef<transactionsType>[] = [
   {
@@ -140,10 +141,8 @@ export const columns: ColumnDef<transactionsType>[] = [
   },
   {
     id: "actions",
-    enableHiding: false,
+    header: () => <div>Actions</div>,
     cell: ({ row }) => {
-      const payment = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -153,9 +152,13 @@ export const columns: ColumnDef<transactionsType>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                console.log(row.original.id);
+              }}
+            >
+              Edit
+            </DropdownMenuItem>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -164,14 +167,33 @@ export const columns: ColumnDef<transactionsType>[] = [
   },
 ];
 
-export function DataTableDemo() {
+export function DetailedSummary({ user }: { user: any }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-  React.useEffect(() => {}, []);
+  const [allTransactions, setAllTransactions] =
+    useRecoilState(allTransactionsAtom);
+  const [loadingText, setLoadingText] = React.useState("");
+
+  async function callGetAllTransactions() {
+    const res = await getAllTransactions(user?.id || "");
+    setLoadingText("No Transactions! Create some to see them here");
+    if (res) {
+      setAllTransactions(
+        //@ts-ignore
+        res.map((transaction: any) => {
+          return { ...transaction, date: formatDate(transaction.date) };
+        })
+      );
+    }
+  }
+  React.useEffect(() => {
+    setLoadingText("Loading your data...");
+    callGetAllTransactions();
+  }, []);
 
   const table = useReactTable({
-    data,
+    data: allTransactions,
     columns,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
@@ -263,7 +285,7 @@ export function DataTableDemo() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No Transactions! Create some to see them here
+                  {loadingText}
                 </TableCell>
               </TableRow>
             )}

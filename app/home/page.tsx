@@ -9,7 +9,7 @@ import MonthlySummary from "@/components/ui/MonthlySummary";
 import LineGraph from "@/components/ui/LineGraph";
 import PieChart from "@/components/ui/PieChart";
 import CurrentMonthSummary from "@/components/ui/CurrentMonthSummay";
-import { DataTableDemo } from "@/components/ui/DetailedSummary";
+import { DetailedSummary } from "@/components/ui/DetailedSummary";
 
 export default function Home() {
   const session = useSession();
@@ -67,7 +67,7 @@ export default function Home() {
           </div>
         </div>
         <div className="mt-8 ">
-          <DataTableDemo />
+          <DetailedSummary user={session.data?.user} />
         </div>
       </div>
     </div>
