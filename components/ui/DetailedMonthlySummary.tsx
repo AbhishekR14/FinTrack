@@ -38,7 +38,7 @@ import { transactionsType } from "@/app/home/types";
 import { useRecoilState } from "recoil";
 import { allMonthlyTransactionsAtom } from "@/store/atoms/transactions";
 import { getAllTransactionsByMonth } from "@/app/api/transactions/actions/transactions";
-import { getMonthNumber } from "@/app/api/transactions/route";
+import { getMonthNumber } from "@/lib/misc";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
