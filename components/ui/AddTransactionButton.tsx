@@ -109,7 +109,7 @@ export default function AddTransactionButton(props: InputProps) {
         <DialogHeader>
           <DialogTitle>Add {props.type}</DialogTitle>
           <DialogDescription>
-            Add your {props.type} here. Click save when you're done.
+            Add your {props.type} here. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-4">
