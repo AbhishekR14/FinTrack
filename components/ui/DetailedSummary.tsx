@@ -35,9 +35,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { transactionsType } from "@/app/home/types";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { allTransactionsAtom } from "@/store/atoms/transactions";
 import { getAllTransactions } from "@/app/api/transactions/actions/transactions";
+import EditDeleteDropdown from "./EditDeleteDropdown";
+import { loadTransactions } from "@/store/atoms/misc";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -141,26 +143,7 @@ export const columns: ColumnDef<transactionsType>[] = [
     id: "actions",
     header: () => <div>Actions</div>,
     cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => {
-                console.log(row.original.id);
-              }}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <EditDeleteDropdown row={row} />;
     },
   },
 ];
@@ -172,6 +155,7 @@ export function DetailedSummary({ user }: { user: any }) {
   const [allTransactions, setAllTransactions] =
     useRecoilState(allTransactionsAtom);
   const [loadingText, setLoadingText] = React.useState("");
+  const reloadTransactions = useRecoilValue(loadTransactions);
 
   async function callGetAllTransactions() {
     const res = await getAllTransactions(user?.id || "");
@@ -188,7 +172,7 @@ export function DetailedSummary({ user }: { user: any }) {
   React.useEffect(() => {
     setLoadingText("Loading your data...");
     callGetAllTransactions();
-  }, []);
+  }, [reloadTransactions]);
 
   const table = useReactTable({
     data: allTransactions,
