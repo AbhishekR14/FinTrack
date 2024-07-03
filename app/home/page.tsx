@@ -42,7 +42,7 @@ export default function Home() {
     { name: "Shopping", amount: 1390.0 },
     { name: "Travel", amount: 160.0 },
   ];
-  async function callGetAllTransactions(month: number, year: number) {
+  async function callGetAllTransactionsByMonth(month: number, year: number) {
     const res = await getAllTransactionsByMonth(
       //@ts-ignore
       session.data?.user?.id || "",
@@ -64,7 +64,7 @@ export default function Home() {
     const currentYear = new Date().getFullYear();
     setSelectedYear(currentYear);
     setSelectedMonth(currentMonth);
-    callGetAllTransactions(selectedMonth, selectedYear);
+    callGetAllTransactionsByMonth(selectedMonth, selectedYear);
   }, [selectedMonth, selectedYear]);
   if (session.status === "loading") {
     return (
