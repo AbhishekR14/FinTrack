@@ -53,6 +53,7 @@ export default function AddTransactionButton(props: InputProps) {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TransactionFormValues>({
     resolver: zodResolver(transactionSchema),
@@ -65,7 +66,9 @@ export default function AddTransactionButton(props: InputProps) {
     },
   });
 
+  const [isOpen, setIsOpen] = React.useState(false);
   const [saveMessage, setSaveMessage] = React.useState("Save");
+  const [transactionType, setTransactionType] = React.useState(props.type);
 
   const onSubmit = async (data: TransactionFormValues) => {
     setSaveMessage("Saving...");
@@ -81,7 +84,6 @@ export default function AddTransactionButton(props: InputProps) {
       const res = await postTransaction(transactionData);
       if (res === true) {
         setSaveMessage("Saved!");
-        location.reload();
         setTimeout(() => {
           setSaveMessage("Save");
         }, 3000);
@@ -100,16 +102,30 @@ export default function AddTransactionButton(props: InputProps) {
     }
   };
 
+  const handleDialogOpenChange = (isOpen: boolean) => {
+    setIsOpen(isOpen);
+    if (!isOpen) {
+      reset({
+        amount: "",
+        category: "",
+        note: "",
+        type: props.type as "Expense" | "Income",
+        date: new Date(),
+      });
+      setTransactionType(props.type);
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={handleDialogOpenChange}>
       <DialogTrigger asChild>
         <Button variant="secondary">Add {props.type}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add {props.type}</DialogTitle>
+          <DialogTitle>Add {transactionType}</DialogTitle>
           <DialogDescription>
-            Add your {props.type} here. Click save when you&apos;re done.
+            Add your {transactionType} here. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-4">
@@ -213,7 +229,13 @@ export default function AddTransactionButton(props: InputProps) {
               control={control}
               render={({ field }) => (
                 <>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value}
+                    onValueChange={(newValue) => {
+                      field.onChange(newValue);
+                      setTransactionType(newValue);
+                    }}
+                  >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder={field.value} />
                     </SelectTrigger>
