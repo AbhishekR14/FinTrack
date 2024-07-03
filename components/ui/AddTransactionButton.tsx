@@ -89,7 +89,14 @@ export default function AddTransactionButton(props: InputProps) {
         setTimeout(() => {
           setSaveMessage("Save");
           setIsOpen(false);
-        }, 3000);
+          reset({
+            amount: "",
+            category: "",
+            note: "",
+            type: props.type as "Expense" | "Income",
+            date: new Date(),
+          });
+        }, 2000);
       } else {
         setSaveMessage("Errored! Try Again");
         setTimeout(() => {
