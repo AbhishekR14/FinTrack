@@ -28,6 +28,7 @@ export default function EditDeleteDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem
+          className="cursor-pointer"
           onClick={() => {
             console.log(row.original.id);
           }}
@@ -35,6 +36,7 @@ export default function EditDeleteDropdown({
           Edit
         </DropdownMenuItem>
         <DropdownMenuItem
+          className="cursor-pointer"
           onClick={async () => {
             try {
               const res = await deleteTransaction(row.original.id);
