@@ -4,6 +4,7 @@ export type addTransactionType = {
   category: string;
   type: string;
   note: string;
+  date: Date;
 };
 export type addTestTransactionType = {
   userId: string;
