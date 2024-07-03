@@ -37,6 +37,8 @@ import {
 import { transactionsType } from "@/app/home/types";
 import { useRecoilValue } from "recoil";
 import { monthlyAllTransactionsAtom } from "@/store/atoms/transactions";
+import { deleteTransaction } from "@/app/api/transactions/actions/transactions";
+import EditDeleteDropdown from "./EditDeleteDropdown";
 
 export const columns: ColumnDef<transactionsType>[] = [
   {
@@ -135,26 +137,7 @@ export const columns: ColumnDef<transactionsType>[] = [
     id: "actions",
     header: () => <div>Actions</div>,
     cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => {
-                console.log(row.original.id);
-              }}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <EditDeleteDropdown row={row} />;
     },
   },
 ];

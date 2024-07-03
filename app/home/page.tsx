@@ -9,11 +9,12 @@ import DetailedMonthlySummary from "@/components/ui/DetailedMonthlySummary";
 import PieChart from "@/components/ui/PieChart";
 import CurrentMonthSummary from "@/components/ui/CurrentMonthSummay";
 import { DetailedSummary } from "@/components/ui/DetailedSummary";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { monthlyAllTransactionsAtom } from "@/store/atoms/transactions";
 import { getAllTransactionsByMonth } from "../api/transactions/actions/transactions";
 import { monthName } from "@/lib/misc";
 import AddTransactionButton from "@/components/ui/AddTransactionButton";
+import { loadTransactions } from "@/store/atoms/misc";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -29,7 +30,7 @@ export default function Home() {
   const [selectedMonth, setSelectedMonth] = React.useState(12);
   const [selectedYear, setSelectedYear] = React.useState(0);
   const [monthInfoLoading, setMonthInfoLoading] = React.useState(true);
-  const [reloadTransactions, setReloadTransactions] = React.useState(0);
+  const reloadTransactions = useRecoilValue(loadTransactions);
   const income = 52;
   const categories = [
     { name: "Family", amount: 10911.0 },
@@ -92,7 +93,6 @@ export default function Home() {
             type="Expense"
             //@ts-ignore
             userId={session.data?.user?.id}
-            changed={setReloadTransactions}
           />
 
           <div className="ml-4">
@@ -100,7 +100,6 @@ export default function Home() {
               type="Income"
               //@ts-ignore
               userId={session.data?.user?.id}
-              changed={setReloadTransactions}
             />
           </div>
         </div>

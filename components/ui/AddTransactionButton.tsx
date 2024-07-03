@@ -26,6 +26,8 @@ import { DatePicker } from "./DatePicker";
 import { SelectCategory } from "./SelectCategory";
 import { addTransactionType } from "@/app/api/transactions/types";
 import { postTransaction } from "@/app/api/transactions/actions/transactions";
+import { useSetRecoilState } from "recoil";
+import { loadTransactions } from "@/store/atoms/misc";
 
 const transactionSchema = z.object({
   amount: z
@@ -45,7 +47,6 @@ type TransactionFormValues = z.infer<typeof transactionSchema>;
 type InputProps = {
   type: string;
   userId: string;
-  changed: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function AddTransactionButton(props: InputProps) {
@@ -68,6 +69,7 @@ export default function AddTransactionButton(props: InputProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [saveMessage, setSaveMessage] = React.useState("Save");
   const [transactionType, setTransactionType] = React.useState(props.type);
+  const changed = useSetRecoilState(loadTransactions);
 
   const onSubmit = async (data: TransactionFormValues) => {
     setSaveMessage("Saving...");
@@ -83,7 +85,7 @@ export default function AddTransactionButton(props: InputProps) {
       const res = await postTransaction(transactionData);
       if (res === true) {
         setSaveMessage("Saved!");
-        props.changed((prev) => prev + 1);
+        changed((prev: number) => prev + 1);
         setTimeout(() => {
           setSaveMessage("Save");
           setIsOpen(false);

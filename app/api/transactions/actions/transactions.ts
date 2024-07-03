@@ -41,12 +41,12 @@ export async function putTransactions(data: updateTransactionType) {
   }
 }
 
-export async function deleteTransaction(userId: string, id: string) {
+export async function deleteTransaction(id: string) {
   try {
     const session = await getServerSession(NEXT_AUTH_CONFIG);
     if (!session) return false;
     const res = await prisma.transactions.delete({
-      where: { id: id, userId: userId },
+      where: { id: id, userId: session.user.userId },
     });
     if (res) {
       revalidatePath("/home");
