@@ -26,7 +26,6 @@ import { DatePicker } from "./DatePicker";
 import { SelectCategory } from "./SelectCategory";
 import { addTransactionType } from "@/app/api/transactions/types";
 import { postTransaction } from "@/app/api/transactions/actions/transactions";
-import { useRouter } from "next/navigation";
 
 const transactionSchema = z.object({
   amount: z
@@ -46,10 +45,10 @@ type TransactionFormValues = z.infer<typeof transactionSchema>;
 type InputProps = {
   type: string;
   userId: string;
+  changed: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function AddTransactionButton(props: InputProps) {
-  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -84,8 +83,10 @@ export default function AddTransactionButton(props: InputProps) {
       const res = await postTransaction(transactionData);
       if (res === true) {
         setSaveMessage("Saved!");
+        props.changed((prev) => prev + 1);
         setTimeout(() => {
           setSaveMessage("Save");
+          setIsOpen(false);
         }, 3000);
       } else {
         setSaveMessage("Errored! Try Again");

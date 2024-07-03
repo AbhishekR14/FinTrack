@@ -29,6 +29,7 @@ export default function Home() {
   const [selectedMonth, setSelectedMonth] = React.useState(12);
   const [selectedYear, setSelectedYear] = React.useState(0);
   const [monthInfoLoading, setMonthInfoLoading] = React.useState(true);
+  const [reloadTransactions, setReloadTransactions] = React.useState(0);
   const income = 52;
   const categories = [
     { name: "Family", amount: 10911.0 },
@@ -65,7 +66,7 @@ export default function Home() {
     setSelectedYear(currentYear);
     setSelectedMonth(currentMonth);
     callGetAllTransactionsByMonth(selectedMonth, selectedYear);
-  }, [selectedMonth, selectedYear]);
+  }, [selectedMonth, selectedYear, reloadTransactions]);
   if (session.status === "loading") {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -91,6 +92,7 @@ export default function Home() {
             type="Expense"
             //@ts-ignore
             userId={session.data?.user?.id}
+            changed={setReloadTransactions}
           />
 
           <div className="ml-4">
@@ -98,6 +100,7 @@ export default function Home() {
               type="Income"
               //@ts-ignore
               userId={session.data?.user?.id}
+              changed={setReloadTransactions}
             />
           </div>
         </div>
