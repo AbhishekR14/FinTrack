@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Spinner from "../../components/ui/Spinner";
 import NavBar from "@/components/ui/NavBar";
-import { Button } from "@/components/ui/button";
 import MonthlySummary from "@/components/ui/MonthlySummary";
 import DetailedMonthlySummary from "@/components/ui/DetailedMonthlySummary";
 import PieChart from "@/components/ui/PieChart";
@@ -14,6 +13,7 @@ import { useRecoilState } from "recoil";
 import { monthlyAllTransactionsAtom } from "@/store/atoms/transactions";
 import { getAllTransactionsByMonth } from "../api/transactions/actions/transactions";
 import { monthName } from "@/lib/misc";
+import AddTransactionButton from "@/components/ui/AddTransactionButton";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -87,23 +87,19 @@ export default function Home() {
       />
       <div className="p-8">
         <div className="flex mb-4">
-          <Button
-            variant={"secondary"}
-            onClick={() => {
-              router.push("/transaction/add?type=expense");
-            }}
-          >
-            Add Expense
-          </Button>
-          <Button
-            variant={"secondary"}
-            className="ml-4"
-            onClick={() => {
-              router.push("/transaction/add?type=income");
-            }}
-          >
-            Add Income
-          </Button>
+          <AddTransactionButton
+            type="Expense"
+            //@ts-ignore
+            userId={session.data?.user?.id}
+          />
+
+          <div className="ml-4">
+            <AddTransactionButton
+              type="Income"
+              //@ts-ignore
+              userId={session.data?.user?.id}
+            />
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="col-span-1 lg:w-max-xl">
