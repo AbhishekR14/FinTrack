@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import prisma from "../../../../db";
 import { NEXT_AUTH_CONFIG } from "../../../../lib/authConfig";
 import { addTransactionType, updateTransactionType } from "../types";
+import { revalidatePath } from "next/cache";
 
 export async function postTransaction(data: addTransactionType) {
   try {
@@ -11,6 +12,7 @@ export async function postTransaction(data: addTransactionType) {
     if (!session) return false;
     const res = await prisma.transactions.create({ data });
     if (res) {
+      revalidatePath("/home");
       return true;
     }
     return false;
@@ -29,6 +31,7 @@ export async function putTransactions(data: updateTransactionType) {
       data,
     });
     if (res) {
+      revalidatePath("/home");
       return true;
     }
     return false;
@@ -46,6 +49,7 @@ export async function deleteTransaction(userId: string, id: string) {
       where: { id: id, userId: userId },
     });
     if (res) {
+      revalidatePath("/home");
       return true;
     }
     return false;
