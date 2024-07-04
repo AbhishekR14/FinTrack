@@ -1,11 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  CaretSortIcon,
-  ChevronDownIcon,
-  DotsHorizontalIcon,
-} from "@radix-ui/react-icons";
+import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
 import {
   ColumnDef,
   SortingState,
@@ -23,7 +19,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -37,7 +32,6 @@ import {
 import { transactionsType } from "@/app/home/types";
 import { useRecoilValue } from "recoil";
 import { monthlyAllTransactionsAtom } from "@/store/atoms/transactions";
-import { deleteTransaction } from "@/app/api/transactions/actions/transactions";
 import EditDeleteDropdown from "./EditDeleteDropdown";
 
 export const columns: ColumnDef<transactionsType>[] = [
