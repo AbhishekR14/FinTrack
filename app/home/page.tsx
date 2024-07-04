@@ -20,10 +20,10 @@ import { monthName } from "@/lib/misc";
 import AddTransactionButton from "@/components/ui/AddTransactionButton";
 import { loadTransactions } from "@/store/atoms/misc";
 
-export const formatDate = (dateString: string) => {
+export function formatDateToString(dateString: string) {
   const date = new Date(dateString);
   return date.toDateString().split(" ").slice(1).join(" ").toUpperCase();
-};
+}
 
 export default function Home() {
   const session = useSession();
@@ -62,7 +62,7 @@ export default function Home() {
         res.map((transaction: any) => {
           return {
             ...transaction,
-            date: formatDate(transaction.date),
+            date: formatDateToString(transaction.date),
           };
         })
       );

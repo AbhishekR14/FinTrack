@@ -40,7 +40,7 @@ import { allTransactionsAtom } from "@/store/atoms/transactions";
 import { getAllTransactions } from "@/app/api/transactions/actions/transactions";
 import EditDeleteDropdown from "./EditDeleteDropdown";
 import { loadTransactions } from "@/store/atoms/misc";
-import { formatDate } from "@/app/home/page";
+import { formatDateToString } from "@/app/home/page";
 
 export const columns: ColumnDef<transactionsType>[] = [
   {
@@ -158,7 +158,7 @@ export function DetailedSummary({ user }: { user: any }) {
       setAllTransactions(
         //@ts-ignore
         res.map((transaction: any) => {
-          return { ...transaction, date: formatDate(transaction.date) };
+          return { ...transaction, date: formatDateToString(transaction.date) };
         })
       );
     }

@@ -49,7 +49,7 @@ export const columns: ColumnDef<transactionsType>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="pl-4 lowercase">{row.getValue("date")}</div>
+      <div className="pl-4">{row.getValue("date")}</div>
     ),
   },
   {
