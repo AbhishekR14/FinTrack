@@ -27,7 +27,7 @@ export async function putTransactions(data: updateTransactionType) {
     const session = await getServerSession(NEXT_AUTH_CONFIG);
     if (!session) return false;
     const res = await prisma.transactions.update({
-      where: { id: data.id, userId: data.userId },
+      where: { id: data.id, userId: session.user.userId },
       data,
     });
     if (res) {

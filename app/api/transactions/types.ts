@@ -17,7 +17,6 @@ export type addTestTransactionType = {
 
 export type updateTransactionType = {
   id: string;
-  userId: string;
   amount: number;
   date: Date;
   category: string;
