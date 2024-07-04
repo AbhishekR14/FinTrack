@@ -85,8 +85,8 @@ export async function getAllTransactions(userId: string) {
 
 export async function getAllTransactionsByYear(userId: string, year: number) {
   try {
-    const startDate = new Date(year, 0, 1);
-    const endDate = new Date(year + 1, 0, 1);
+    const startDate = new Date(Date.UTC(year, 0, 1));
+    const endDate = new Date(Date.UTC(year + 1, 0, 1));
     const res = await prisma.transactions.findMany({
       where: {
         userId: userId,
@@ -121,8 +121,8 @@ export async function getAllTransactionsByMonth(
   month: number
 ) {
   try {
-    const startDate = new Date(year, month, 1);
-    const endDate = new Date(year, month + 1, 1);
+    const startDate = new Date(Date.UTC(year, month, 1));
+    const endDate = new Date(Date.UTC(year, month + 1, 1));
     const res = await prisma.transactions.findMany({
       where: { userId: userId, date: { gte: startDate, lt: endDate } },
       select: {

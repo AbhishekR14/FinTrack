@@ -9,8 +9,12 @@ import DetailedMonthlySummary from "@/components/ui/DetailedMonthlySummary";
 import PieChart from "@/components/ui/PieChart";
 import CurrentMonthSummary from "@/components/ui/CurrentMonthSummay";
 import { DetailedSummary } from "@/components/ui/DetailedSummary";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { monthlyAllTransactionsAtom } from "@/store/atoms/transactions";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  monthlyAllTransactionsAtom,
+  selectedMonthAtom,
+  selectedYearAtom,
+} from "@/store/atoms/transactions";
 import { getAllTransactionsByMonth } from "../api/transactions/actions/transactions";
 import { monthName } from "@/lib/misc";
 import AddTransactionButton from "@/components/ui/AddTransactionButton";
@@ -18,7 +22,7 @@ import { loadTransactions } from "@/store/atoms/misc";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  return date.toLocaleDateString();
+  return date.toDateString().split(" ").slice(1).join(" ").toUpperCase();
 };
 
 export default function Home() {
@@ -27,10 +31,11 @@ export default function Home() {
   const [monthlyAllTransactions, setMonthlyAllTransactions] = useRecoilState(
     monthlyAllTransactionsAtom
   );
-  const [selectedMonth, setSelectedMonth] = React.useState(12);
-  const [selectedYear, setSelectedYear] = React.useState(0);
+  const selectedMonth = useRecoilValue(selectedMonthAtom);
+  const selectedYear = useRecoilValue(selectedYearAtom);
   const [monthInfoLoading, setMonthInfoLoading] = React.useState(true);
   const reloadTransactions = useRecoilValue(loadTransactions);
+  const setReloadTransactions = useSetRecoilState(loadTransactions);
   const income = 52;
   const categories = [
     { name: "Family", amount: 10911.0 },
@@ -47,7 +52,7 @@ export default function Home() {
   async function callGetAllTransactionsByMonth(month: number, year: number) {
     const res = await getAllTransactionsByMonth(
       //@ts-ignore
-      session.data?.user?.id || "",
+      session.data?.user?.id,
       year,
       month
     );
@@ -55,19 +60,22 @@ export default function Home() {
       setMonthlyAllTransactions(
         //@ts-ignore
         res.map((transaction: any) => {
-          return { ...transaction, date: formatDate(transaction.date) };
+          return {
+            ...transaction,
+            date: formatDate(transaction.date),
+          };
         })
       );
     }
     setMonthInfoLoading(false);
   }
+
   React.useEffect(() => {
-    const currentMonth = new Date().getMonth();
-    const currentYear = new Date().getFullYear();
-    setSelectedYear(currentYear);
-    setSelectedMonth(currentMonth);
     callGetAllTransactionsByMonth(selectedMonth, selectedYear);
   }, [selectedMonth, selectedYear, reloadTransactions]);
+  React.useEffect(() => {
+    setReloadTransactions((prev) => prev + 1);
+  }, []);
   if (session.status === "loading") {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -105,7 +113,11 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="col-span-1 lg:w-max-xl">
-            <CurrentMonthSummary income={income} categories={categories} />
+            <CurrentMonthSummary
+              income={income}
+              categories={categories}
+              month={monthName[selectedMonth]}
+            />
           </div>
           <div className="col-span-1 ">
             <DetailedMonthlySummary
