@@ -12,7 +12,6 @@ export type addTestTransactionType = {
   category: string;
   type: string;
   note: string;
-  testdata: boolean;
 };
 
 export type updateTransactionType = {
@@ -22,7 +21,6 @@ export type updateTransactionType = {
   category: string;
   type: string;
   note: string;
-  testdata: boolean;
 };
 
 export type getTransactionsType = {
