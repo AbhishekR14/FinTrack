@@ -40,11 +40,7 @@ import { allTransactionsAtom } from "@/store/atoms/transactions";
 import { getAllTransactions } from "@/app/api/transactions/actions/transactions";
 import EditDeleteDropdown from "./EditDeleteDropdown";
 import { loadTransactions } from "@/store/atoms/misc";
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString();
-};
+import { formatDate } from "@/app/home/page";
 
 export const columns: ColumnDef<transactionsType>[] = [
   {
@@ -60,9 +56,7 @@ export const columns: ColumnDef<transactionsType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="pl-4 lowercase">{row.getValue("date")}</div>
-    ),
+    cell: ({ row }) => <div className="pl-4">{row.getValue("date")}</div>,
   },
   {
     accessorKey: "amount",

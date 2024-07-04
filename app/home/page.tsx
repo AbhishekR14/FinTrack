@@ -20,7 +20,7 @@ import { monthName } from "@/lib/misc";
 import AddTransactionButton from "@/components/ui/AddTransactionButton";
 import { loadTransactions } from "@/store/atoms/misc";
 
-const formatDate = (dateString: string) => {
+export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return date.toDateString().split(" ").slice(1).join(" ").toUpperCase();
 };
