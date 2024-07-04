@@ -71,11 +71,11 @@ export default function Home() {
   }
 
   React.useEffect(() => {
-    callGetAllTransactionsByMonth(selectedMonth, selectedYear);
-  }, [selectedMonth, selectedYear, reloadTransactions]);
-  React.useEffect(() => {
-    setReloadTransactions((prev) => prev + 1);
-  }, []);
+    if (session.status === "authenticated") {
+      callGetAllTransactionsByMonth(selectedMonth, selectedYear);
+    }
+  }, [selectedMonth, selectedYear, reloadTransactions, session.status]);
+
   if (session.status === "loading") {
     return (
       <div className="flex justify-center items-center h-screen">
