@@ -28,4 +28,22 @@ export function getMonthNumber(month: string): number {
   return monthMap[lowerCaseMonth];
 }
 
-export const monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export const monthName = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export function formatDateToString(dateString: string) {
+  const date = new Date(dateString);
+  return date.toDateString().split(" ").slice(1).join(" ").toUpperCase();
+}

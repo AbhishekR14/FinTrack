@@ -19,11 +19,7 @@ import { getAllTransactionsByMonth } from "../api/transactions/actions/transacti
 import { monthName } from "@/lib/misc";
 import AddTransactionButton from "@/components/ui/AddTransactionButton";
 import { loadTransactions } from "@/store/atoms/misc";
-
-export function formatDateToString(dateString: string) {
-  const date = new Date(dateString);
-  return date.toDateString().split(" ").slice(1).join(" ").toUpperCase();
-}
+import { formatDateToString } from "@/lib/misc";
 
 export default function Home() {
   const session = useSession();

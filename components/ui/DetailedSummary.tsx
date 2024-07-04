@@ -40,7 +40,7 @@ import { allTransactionsAtom } from "@/store/atoms/transactions";
 import { getAllTransactions } from "@/app/api/transactions/actions/transactions";
 import EditDeleteDropdown from "./EditDeleteDropdown";
 import { loadTransactions } from "@/store/atoms/misc";
-import { formatDateToString } from "@/app/home/page";
+import { formatDateToString } from "@/lib/misc";
 
 export const columns: ColumnDef<transactionsType>[] = [
   {
