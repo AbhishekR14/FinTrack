@@ -1,15 +1,23 @@
-const CurrentMonthSummary = ({ income, categories }: PropsTypes) => {
+import {
+  selectedMonthAtom,
+  selectedYearAtom,
+} from "@/store/atoms/transactions";
+import { useSetRecoilState } from "recoil";
+
+const CurrentMonthSummary = ({ income, categories, month }: PropsTypes) => {
   const totalExpense = categories.reduce(
     (acc, category) => acc + category.amount,
     0
   );
   const balance = income - totalExpense;
+  const setSelectedMonth = useSetRecoilState(selectedMonthAtom);
+  const setSelectedYear = useSetRecoilState(selectedYearAtom);
 
   return (
     <div className="p-6 dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 hover:bg-gray-100 hover:dark:bg-gray-700">
       <div className="flex justify-between items-center mb-4">
         <button className="text-lg">&lt;</button>
-        <h2 className="text-xl font-bold cursor-pointer">July</h2>
+        <h2 className="text-xl font-bold cursor-pointer">{month}</h2>
         <button className="text-lg">&gt;</button>
       </div>
       <div className="mb-4">
@@ -48,6 +56,7 @@ const CurrentMonthSummary = ({ income, categories }: PropsTypes) => {
 type PropsTypes = {
   income: number;
   categories: { name: string; amount: number }[];
+  month: string;
 };
 
 export default CurrentMonthSummary;
