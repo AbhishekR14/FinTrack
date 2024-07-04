@@ -44,13 +44,11 @@ export const columns: ColumnDef<transactionsType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date
-          <CaretSortIcon className="ml-2 h-4 w-4" />
+          <CaretSortIcon className="ml-2 h-4 w-6" />
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="pl-4">{row.getValue("date")}</div>
-    ),
+    cell: ({ row }) => <div className="md:pl-4">{row.getValue("date")}</div>,
   },
   {
     accessorKey: "amount",

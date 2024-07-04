@@ -52,11 +52,11 @@ export const columns: ColumnDef<transactionsType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date
-          <CaretSortIcon className="ml-2 h-4 w-4" />
+          <CaretSortIcon className="ml-2 h-4 w-6" />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="pl-4">{row.getValue("date")}</div>,
+    cell: ({ row }) => <div className="md:pl-4">{row.getValue("date")}</div>,
   },
   {
     accessorKey: "amount",
@@ -79,7 +79,7 @@ export const columns: ColumnDef<transactionsType>[] = [
         currency: "INR",
       }).format(amount);
 
-      return <div className="pl-4 font-medium">{formatted}</div>;
+      return <div className="pl-2 md:pl-4 font-medium">{formatted}</div>;
     },
   },
   {
