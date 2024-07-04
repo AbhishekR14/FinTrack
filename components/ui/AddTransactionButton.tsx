@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { z } from "zod";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DatePicker } from "./DatePicker";
 import { SelectCategory } from "./SelectCategory";
@@ -28,21 +28,7 @@ import { addTransactionType } from "@/app/api/transactions/types";
 import { postTransaction } from "@/app/api/transactions/actions/transactions";
 import { useSetRecoilState } from "recoil";
 import { loadTransactions } from "@/store/atoms/misc";
-
-const transactionSchema = z.object({
-  amount: z
-    .string()
-    .min(1, "Amount is required")
-    .refine((value) => !isNaN(parseFloat(value)) && parseFloat(value) > 0, {
-      message: "Amount must be a positive number",
-    }),
-  category: z.string().nonempty("Category is required"),
-  note: z.string().optional(),
-  type: z.enum(["Expense", "Income"]),
-  date: z.date(),
-});
-
-type TransactionFormValues = z.infer<typeof transactionSchema>;
+import { TransactionFormValues, transactionSchema } from "@/app/home/schema";
 
 type InputProps = {
   type: string;
