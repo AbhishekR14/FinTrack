@@ -18,7 +18,7 @@ import {
 import { getAllTransactionsByMonth } from "../api/transactions/actions/transactions";
 import { monthName } from "@/lib/misc";
 import AddTransactionButton from "@/components/ui/AddTransactionButton";
-import { categoryStringAtom, loadTransactions } from "@/store/atoms/misc";
+import { loadTransactions } from "@/store/atoms/misc";
 import { formatDateToString } from "@/lib/misc";
 
 export default function Home() {
@@ -32,7 +32,6 @@ export default function Home() {
   const [monthInfoLoading, setMonthInfoLoading] = React.useState(true);
   const reloadTransactions = useRecoilValue(loadTransactions);
   const setReloadTransactions = useSetRecoilState(loadTransactions);
-  const categoryString = useRecoilValue(categoryStringAtom);
   const income = 52;
   const categories = [
     { name: "Family", amount: 10911.0 },
@@ -66,7 +65,6 @@ export default function Home() {
     }
     setMonthInfoLoading(false);
   }
-
   React.useEffect(() => {
     if (session.status === "authenticated") {
       callGetAllTransactionsByMonth(selectedMonth, selectedYear);

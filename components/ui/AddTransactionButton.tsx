@@ -26,8 +26,8 @@ import { DatePicker } from "./DatePicker";
 import { SelectCategory } from "./SelectCategory";
 import { addTransactionType } from "@/app/api/transactions/types";
 import { postTransaction } from "@/app/api/transactions/actions/transactions";
-import { useSetRecoilState } from "recoil";
-import { loadTransactions } from "@/store/atoms/misc";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { categoryStringAtom, loadTransactions } from "@/store/atoms/misc";
 import { TransactionFormValues, transactionSchema } from "@/app/home/schema";
 
 type InputProps = {
@@ -56,6 +56,7 @@ export default function AddTransactionButton(props: InputProps) {
   const [saveMessage, setSaveMessage] = React.useState("Save");
   const [transactionType, setTransactionType] = React.useState(props.type);
   const changed = useSetRecoilState(loadTransactions);
+  const categoryString = useRecoilValue(categoryStringAtom);
 
   const onSubmit = async (data: TransactionFormValues) => {
     setSaveMessage("Saving...");
