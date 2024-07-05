@@ -146,35 +146,38 @@ export function SelectCategory({
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
+                  className="flex items-center justify-between"
                 >
-                  {category}
-                  <CheckIcon
-                    className={cn(
-                      "ml-auto h-4 w-4",
-                      value === category ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  <button
-                    className="ml-2"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(category);
-                    }}
-                  >
-                    <svg
-                      className="w-4 h-4 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 30 30"
+                  <div className="truncate">{category}</div>
+                  <div className="flex items-center space-x-1">
+                    <CheckIcon
+                      className={cn(
+                        "h-4 w-4",
+                        value === category ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    <button
+                      className="ml-2"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(category);
+                      }}
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"
-                      />
-                    </svg>
-                    <span className="sr-only">Delete Category</span>
-                  </button>
+                      <svg
+                        className="w-4 h-4 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 30 30"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"
+                        />
+                      </svg>
+                      <span className="sr-only">Delete Category</span>
+                    </button>
+                  </div>
                 </CommandItem>
               ))}
             </CommandGroup>
