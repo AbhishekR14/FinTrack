@@ -19,38 +19,51 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "./input";
+import { editCategories } from "@/app/api/transactions/actions/categories";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { categoryStringAtom } from "@/store/atoms/misc";
 
-const initialCategories = [
-  {
-    value: "Eating Out",
-    label: "Eating Out",
-  },
-  {
-    value: "Travel",
-    label: "Travel",
-  },
-  {
-    value: "Shopping",
-    label: "Shopping",
-  },
-  {
-    value: "Gifts",
-    label: "Gifts",
-  },
-];
-
+const initialCategories: { value: string; label: string }[] = [];
 export function SelectCategory({
   userId,
   value,
   setValue,
 }: {
-  userId: String;
-  value: String;
+  userId: string;
+  value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [open, setOpen] = React.useState(false);
   const [newCategory, setNewCategory] = React.useState("");
+  const setCategoryString = useSetRecoilState(categoryStringAtom);
+  const categoryString = useRecoilValue(categoryStringAtom);
   const [categories, setCategories] = React.useState(initialCategories);
+
+  async function callEditCategories(userId: string) {
+    try {
+      const res = await editCategories(userId, categoryString);
+      if (res) {
+        return true;
+      }
+    } catch (e) {
+      console.log("Error while updaing the categories");
+      return false;
+    }
+  }
+  React.useEffect(() => {
+    categoryString.split(",").forEach((category) => {
+      if (category !== "") {
+        if (
+          !initialCategories.some(
+            (categoryPresent) => categoryPresent.value === category
+          )
+        ) {
+          initialCategories.push({ value: category, label: category });
+        }
+      }
+    });
+    editCategories(userId, categoryString);
+  }, [categoryString]);
 
   const handleDelete = (categoryValue: string) => {
     setCategories(
@@ -60,6 +73,13 @@ export function SelectCategory({
       setValue("");
     }
   };
+  React.useEffect(() => {
+    var str = "";
+    categories.map((category) => {
+      str = str + category.value + ",";
+    });
+    setCategoryString(str);
+  }, [categories]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -86,23 +106,28 @@ export function SelectCategory({
                 <Input
                   placeholder="Add new category"
                   value={newCategory}
-                  onChange={(e) => setNewCategory(e.target.value)}
+                  onChange={(e) =>
+                    setNewCategory(e.target.value.replace(/,/g, " "))
+                  }
                 />
                 <button
                   className=" text-white  px-2  rounded text-sm"
                   onClick={() => {
+                    const trimmedCategory = newCategory.trim();
                     if (
                       categories.find(
-                        (category) => category.value === newCategory
+                        (category) => category.value === trimmedCategory
                       )
                     ) {
                       setNewCategory("");
-                    } else {
+                    } else if (trimmedCategory !== "") {
                       setCategories([
                         ...categories,
-                        { value: newCategory, label: newCategory },
+                        { value: trimmedCategory, label: trimmedCategory },
                       ]);
+                      setCategoryString(categoryString + "," + trimmedCategory);
                       setNewCategory("");
+                      callEditCategories(userId);
                     }
                   }}
                 >
@@ -141,7 +166,10 @@ export function SelectCategory({
                   />
                   <button
                     className="ml-2"
-                    onClick={() => handleDelete(category.value)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(category.value);
+                    }}
                   >
                     <svg
                       className="w-4 h-4 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer"

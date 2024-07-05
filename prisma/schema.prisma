@@ -12,6 +12,7 @@ model Users{
   name String
   email String @unique
   password String
+  categories String @default("Travel,Gifts,Eating Out,Shopping")
   transactions Transactions[]
 }
 
