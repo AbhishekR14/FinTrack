@@ -108,11 +108,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="col-span-1 lg:w-max-xl">
-            <CurrentMonthSummary
-              income={income}
-              categories={categories}
-              month={monthName[selectedMonth]}
-            />
+            <CurrentMonthSummary income={income} categories={categories} />
           </div>
           <div className="col-span-1 ">
             <DetailedMonthlySummary
