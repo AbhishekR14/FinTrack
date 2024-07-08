@@ -39,7 +39,7 @@ const CurrentMonthSummary = ({ income, categories }: PropsTypes) => {
             />
           </svg>
         </button>
-        <h2 className="text-xl font-bold cursor-pointer mx-2">
+        <h2 className="cursor-pointer mx-2">
           <MonthPicker />
         </h2>
         <button

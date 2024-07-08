@@ -11,7 +11,7 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -56,9 +56,9 @@ export default function MonthPicker() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button className={buttonVariants({ variant: "ghost" })}>
+        <Button variant="ghost" className="text-lg">
           {format(currentMonth, "MMMM, yyyy")}
-        </button>
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[225px] p-0">
         <div className="p-3">

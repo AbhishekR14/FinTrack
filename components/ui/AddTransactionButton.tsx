@@ -56,7 +56,6 @@ export default function AddTransactionButton(props: InputProps) {
   const [saveMessage, setSaveMessage] = React.useState("Save");
   const [transactionType, setTransactionType] = React.useState(props.type);
   const changed = useSetRecoilState(loadTransactions);
-  const categoryString = useRecoilValue(categoryStringAtom);
 
   const onSubmit = async (data: TransactionFormValues) => {
     setSaveMessage("Saving...");
