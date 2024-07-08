@@ -1,18 +1,34 @@
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import MonthPicker from "./monthpicker";
 import {
+  monthlyAllTransactionsAtom,
   selectedMonthAtom,
   selectedYearAtom,
 } from "@/store/atoms/transactions";
+import React from "react";
 
-const CurrentMonthSummary = ({ income, categories }: PropsTypes) => {
-  const totalExpense = categories.reduce(
-    (acc, category) => acc + category.amount,
-    0
-  );
-  const balance = income - totalExpense;
+const CurrentMonthSummary = () => {
   const [selectedMonth, setSelectedMonth] = useRecoilState(selectedMonthAtom);
   const [selectedYear, setSelectedYear] = useRecoilState(selectedYearAtom);
+  const transactions = useRecoilValue(monthlyAllTransactionsAtom);
+  const [income, setIncome] = React.useState(0);
+  const [totalExpense, setTotalExpense] = React.useState(0);
+  const [balance, setBalance] = React.useState(0);
+
+  React.useEffect(() => {
+    setIncome(0);
+    setTotalExpense(0);
+    transactions.map((transaction) => {
+      if (transaction.type.toLocaleLowerCase() === "income") {
+        setIncome((prev) => transaction.amount + prev);
+      } else if (transaction.type.toLocaleLowerCase() === "expense") {
+        setTotalExpense((prev) => prev + transaction.amount);
+      }
+    });
+  }, [transactions, selectedMonth, selectedYear]);
+  React.useEffect(() => {
+    setBalance(income - totalExpense);
+  }, [income, totalExpense]);
 
   return (
     <div className="p-6 dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 hover:bg-gray-100 hover:dark:bg-gray-700">
@@ -77,12 +93,16 @@ const CurrentMonthSummary = ({ income, categories }: PropsTypes) => {
         </div>
       </div>
       <div className="mb-4 h-52 pr-2 overflow-y-auto top-1/2 left-1/4">
-        {categories.map((category, index) => (
-          <div key={index} className="flex justify-between">
-            <span>{category.name}</span>
-            <span>₹{category.amount.toFixed(2)}</span>
-          </div>
-        ))}
+        {transactions.map((transaction) => {
+          if (transaction.type.toLocaleLowerCase() === "expense") {
+            return (
+              <div key={transaction.id} className="flex justify-between pb-1">
+                <span>{transaction.category}</span>
+                <span>₹{transaction.amount.toFixed(2)}</span>
+              </div>
+            );
+          }
+        })}
       </div>
       <hr className="border-t-2 border-gray-600 mb-4" />
       <div className="flex justify-between text-xl pr-2">
@@ -97,11 +117,6 @@ const CurrentMonthSummary = ({ income, categories }: PropsTypes) => {
       </div>
     </div>
   );
-};
-
-type PropsTypes = {
-  income: number;
-  categories: { name: string; amount: number }[];
 };
 
 export default CurrentMonthSummary;

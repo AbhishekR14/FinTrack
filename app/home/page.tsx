@@ -20,6 +20,7 @@ import { monthName } from "@/lib/misc";
 import AddTransactionButton from "@/components/ui/AddTransactionButton";
 import { loadTransactions } from "@/store/atoms/misc";
 import { formatDateToString } from "@/lib/misc";
+import { getTransactionsType } from "../api/transactions/types";
 
 export default function Home() {
   const session = useSession();
@@ -32,19 +33,7 @@ export default function Home() {
   const [monthInfoLoading, setMonthInfoLoading] = React.useState(true);
   const reloadTransactions = useRecoilValue(loadTransactions);
   const setReloadTransactions = useSetRecoilState(loadTransactions);
-  const income = 52;
-  const categories = [
-    { name: "Family", amount: 10911.0 },
-    { name: "Eating Out", amount: 2599.0 },
-    { name: "Lunch @ office", amount: 1459.0 },
-    { name: "Shopping", amount: 1390.0 },
-    { name: "Travel", amount: 160.0 },
-    { name: "Family", amount: 10911.0 },
-    { name: "Eating Out", amount: 2599.0 },
-    { name: "Lunch @ office", amount: 1459.0 },
-    { name: "Shopping", amount: 1390.0 },
-    { name: "Travel", amount: 160.0 },
-  ];
+
   async function callGetAllTransactionsByMonth(month: number, year: number) {
     const res = await getAllTransactionsByMonth(
       //@ts-ignore
@@ -55,9 +44,10 @@ export default function Home() {
     if (res) {
       setMonthlyAllTransactions(
         //@ts-ignore
-        res.map((transaction: any) => {
+        res.map((transaction: getTransactionsType) => {
           return {
             ...transaction,
+            //@ts-ignore
             date: formatDateToString(transaction.date),
           };
         })
@@ -108,7 +98,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="col-span-1 lg:w-max-xl">
-            <CurrentMonthSummary income={income} categories={categories} />
+            <CurrentMonthSummary />
           </div>
           <div className="col-span-1 ">
             <DetailedMonthlySummary
