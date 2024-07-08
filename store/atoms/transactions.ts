@@ -1,10 +1,32 @@
 import { atom } from "recoil";
 
-export const allTransactionsAtom = atom({
+export const allTransactionsAtom = atom<
+  | {
+      id: string;
+      userId: string;
+      amount: number;
+      date: string;
+      category: string;
+      type: string;
+      note: string;
+    }[]
+  | never[]
+>({
   key: "allTransactionsAtom",
   default: [],
 });
-export const monthlyAllTransactionsAtom = atom({
+export const monthlyAllTransactionsAtom = atom<
+  | {
+      id: string;
+      userId: string;
+      amount: number;
+      date: string;
+      category: string;
+      type: string;
+      note: string;
+    }[]
+  | never[]
+>({
   key: "monthlyAllTransactionsAtom",
   default: [],
 });
