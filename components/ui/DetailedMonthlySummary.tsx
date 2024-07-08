@@ -175,7 +175,7 @@ export default function DetailedMonthlySummary({
   return (
     <div className="w-full p-4 dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 ">
       <div className="flex items-center py-4">
-        <h3 className="text-xl font-bold mb-2 dark:border-cyan-50">{month}</h3>
+        <h3 className="text-xl pl-6 font-bold  dark:border-cyan-50">{month}</h3>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
