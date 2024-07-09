@@ -7,25 +7,56 @@ import {
 } from "@/store/atoms/transactions";
 import React from "react";
 
-const CurrentMonthSummary = () => {
+type CategoryTransaction = {
+  category: string;
+  amount: number;
+};
+
+const CurrentMonthSummary: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useRecoilState(selectedMonthAtom);
   const [selectedYear, setSelectedYear] = useRecoilState(selectedYearAtom);
   const transactions = useRecoilValue(monthlyAllTransactionsAtom);
-  const [income, setIncome] = React.useState(0);
-  const [totalExpense, setTotalExpense] = React.useState(0);
-  const [balance, setBalance] = React.useState(0);
+  const [income, setIncome] = React.useState<number>(0);
+  const [totalExpense, setTotalExpense] = React.useState<number>(0);
+  const [balance, setBalance] = React.useState<number>(0);
+  const [transactionByCategory, setTransactionByCategory] = React.useState<
+    CategoryTransaction[]
+  >([]);
 
   React.useEffect(() => {
-    setIncome(0);
-    setTotalExpense(0);
-    transactions.map((transaction) => {
+    let incomeSum = 0;
+    let expenseSum = 0;
+    const categoryMap = new Map<string, number>();
+
+    transactions.forEach((transaction) => {
       if (transaction.type.toLocaleLowerCase() === "income") {
-        setIncome((prev) => transaction.amount + prev);
+        incomeSum += transaction.amount;
       } else if (transaction.type.toLocaleLowerCase() === "expense") {
-        setTotalExpense((prev) => prev + transaction.amount);
+        expenseSum += transaction.amount;
+        if (categoryMap.has(transaction.category)) {
+          categoryMap.set(
+            transaction.category,
+            categoryMap.get(transaction.category)! + transaction.amount
+          );
+        } else {
+          categoryMap.set(transaction.category, transaction.amount);
+        }
       }
     });
+
+    setIncome(incomeSum);
+    setTotalExpense(expenseSum);
+
+    const groupedTransactions = Array.from(
+      categoryMap,
+      ([category, amount]) => ({
+        category,
+        amount,
+      })
+    );
+    setTransactionByCategory(groupedTransactions);
   }, [transactions, selectedMonth, selectedYear]);
+
   React.useEffect(() => {
     setBalance(income - totalExpense);
   }, [income, totalExpense]);
@@ -93,15 +124,16 @@ const CurrentMonthSummary = () => {
         </div>
       </div>
       <div className="mb-4 h-52 pr-2 overflow-y-auto top-1/2 left-1/4">
-        {transactions.map((transaction) => {
-          if (transaction.type.toLocaleLowerCase() === "expense") {
-            return (
-              <div key={transaction.id} className="flex justify-between pb-1">
-                <span>{transaction.category}</span>
-                <span>₹{transaction.amount.toFixed(2)}</span>
-              </div>
-            );
-          }
+        {transactionByCategory.map((transaction) => {
+          return (
+            <div
+              key={transaction.category}
+              className="flex justify-between pb-1"
+            >
+              <span>{transaction.category}</span>
+              <span>₹{transaction.amount.toFixed(2)}</span>
+            </div>
+          );
         })}
       </div>
       <hr className="border-t-2 border-gray-600 mb-4" />
