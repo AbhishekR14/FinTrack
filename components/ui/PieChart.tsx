@@ -117,7 +117,7 @@ const MonthlyPieChart: React.FC = () => {
 
   return (
     <Card className="flex flex-col dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 hover:bg-gray-100">
-      <CardHeader className="md:p-6 items-center pb-0">
+      <CardHeader className="md:p-6 items-center">
         <CardTitle>Category Summary</CardTitle>
         <CardDescription>
           {monthName[selectedMonth] + " " + selectedYear}

@@ -55,9 +55,9 @@ const CurrentMonthSummary = () => {
             />
           </svg>
         </button>
-        <h2 className="cursor-pointer mx-2">
+        <div className="cursor-pointer mx-2">
           <MonthPicker />
-        </h2>
+        </div>
         <button
           className="text-lg"
           onClick={() => {
