@@ -6,7 +6,7 @@ import Spinner from "../../components/ui/Spinner";
 import NavBar from "@/components/ui/NavBar";
 import MonthlySummary from "@/components/ui/MonthlySummary";
 import DetailedMonthlySummary from "@/components/ui/DetailedMonthlySummary";
-import PieChart from "@/components/ui/PieChart";
+import MonthlyPieChart from "@/components/ui/PieChart";
 import CurrentMonthSummary from "@/components/ui/CurrentMonthSummay";
 import { DetailedSummary } from "@/components/ui/DetailedSummary";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -110,7 +110,7 @@ export default function Home() {
             <MonthlySummary />
           </div>
           <div className="col-span-1 ">
-            <PieChart />
+            <MonthlyPieChart />
           </div>
         </div>
         <div className="mt-8 ">
