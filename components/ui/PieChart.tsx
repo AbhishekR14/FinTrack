@@ -123,7 +123,7 @@ const MonthlyPieChart: React.FC = () => {
           {monthName[selectedMonth] + " " + selectedYear}
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1 pb-0 ">
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[250px] w-full pb-0 [&_.recharts-pie-label-text]:fill-foreground"
@@ -150,11 +150,9 @@ const MonthlyPieChart: React.FC = () => {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm md:p-6">
         <div className="flex items-center gap-2 font-medium leading-none p-3">
-          {chartData.length !== 0
-            ? `Showing category-wise expenses for ${monthName[selectedMonth]}, ${selectedYear}`
-            : ""}
+          {chartData.length !== 0 ? `Category-wise Expenses` : ""}
         </div>
-        <div className="p-2"></div>
+        <div className="md:p-2"></div>
       </CardFooter>
     </Card>
   );
