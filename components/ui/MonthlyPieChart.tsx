@@ -1,20 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { Pie, PieChart } from "recharts";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
 } from "@/components/ui/chart";
 import { useRecoilValue } from "recoil";
 import {
@@ -22,6 +20,7 @@ import {
   selectedMonthAtom,
   selectedYearAtom,
 } from "@/store/atoms/transactions";
+import { useEffect, useState } from "react";
 import { monthName } from "@/lib/misc";
 
 interface Transaction {
@@ -48,7 +47,7 @@ const defaultColors = [
   "hsl(var(--chart-5))",
 ];
 
-const MonthlyPieChart: React.FC = () => {
+export default function MonthlyPieChart() {
   const monthTransactions = useRecoilValue<Transaction[]>(
     monthlyAllTransactionsAtom
   );
@@ -117,16 +116,16 @@ const MonthlyPieChart: React.FC = () => {
 
   return (
     <Card className="flex flex-col dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 hover:bg-gray-100">
-      <CardHeader className="md:p-6 items-center">
+      <CardHeader className="items-center pb-0">
         <CardTitle>Category Summary</CardTitle>
         <CardDescription>
           {monthName[selectedMonth] + " " + selectedYear}
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0 ">
+      <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px] w-full pb-0 [&_.recharts-pie-label-text]:fill-foreground"
+          className="mx-auto aspect-square max-h-[425px]"
         >
           {chartData.length === 0 ? (
             <div className="flex justify-center h-full items-center text-base">
@@ -134,28 +133,15 @@ const MonthlyPieChart: React.FC = () => {
             </div>
           ) : (
             <PieChart>
-              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-              <Pie
-                data={chartData}
-                dataKey="amount"
-                label={({ name }) => name}
-                nameKey="category"
-                cx="50%"
-                cy="50%"
-                outerRadius="80%"
+              <Pie data={chartData} dataKey="amount" />
+              <ChartLegend
+                content={<ChartLegendContent nameKey="category" />}
+                className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
               />
             </PieChart>
           )}
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm md:p-6">
-        <div className="flex items-center gap-2 font-medium leading-none p-3">
-          {chartData.length !== 0 ? `Category-wise Expenses` : ""}
-        </div>
-        <div className="md:p-2"></div>
-      </CardFooter>
     </Card>
   );
-};
-
-export default MonthlyPieChart;
+}

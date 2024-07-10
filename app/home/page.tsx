@@ -6,7 +6,7 @@ import Spinner from "../../components/ui/Spinner";
 import NavBar from "@/components/ui/NavBar";
 import MonthlySummary from "@/components/ui/MonthlySummary";
 import DetailedMonthlySummary from "@/components/ui/DetailedMonthlySummary";
-import MonthlyPieChart from "@/components/ui/PieChart";
+import MonthlyPieChart from "@/components/ui/MonthlyPieChart";
 import CurrentMonthSummary from "@/components/ui/CurrentMonthSummay";
 import { DetailedSummary } from "@/components/ui/DetailedSummary";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -21,7 +21,6 @@ import AddTransactionButton from "@/components/ui/AddTransactionButton";
 import { loadTransactions } from "@/store/atoms/misc";
 import { formatDateToString } from "@/lib/misc";
 import { getTransactionsType } from "../api/transactions/types";
-import { PieChartLegend } from "@/components/ui/PieChartLegend";
 
 export default function Home() {
   const session = useSession();
@@ -111,7 +110,7 @@ export default function Home() {
             <MonthlySummary />
           </div>
           <div className="col-span-1 ">
-            <PieChartLegend />
+            <MonthlyPieChart />
           </div>
         </div>
         <div className="mt-8 ">
