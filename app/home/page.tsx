@@ -21,6 +21,7 @@ import AddTransactionButton from "@/components/ui/AddTransactionButton";
 import { loadTransactions } from "@/store/atoms/misc";
 import { formatDateToString } from "@/lib/misc";
 import { getTransactionsType } from "../api/transactions/types";
+import { PieChartLegend } from "@/components/ui/PieChartLegend";
 
 export default function Home() {
   const session = useSession();
@@ -110,7 +111,7 @@ export default function Home() {
             <MonthlySummary />
           </div>
           <div className="col-span-1 ">
-            <MonthlyPieChart />
+            <PieChartLegend />
           </div>
         </div>
         <div className="mt-8 ">
