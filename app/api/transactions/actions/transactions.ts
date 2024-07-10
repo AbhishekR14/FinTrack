@@ -83,13 +83,25 @@ export async function getAllTransactions(userId: string) {
   }
 }
 
-export async function getAllTransactionsByYear(userId: string, year: number) {
+export async function getExpenseAndIncome(
+  endYear: number,
+  endMonth: number
+): Promise<
+  | false
+  | {
+      [key: string]: { income: number; expense: number };
+    }
+> {
   try {
-    const startDate = new Date(Date.UTC(year, 0, 1));
-    const endDate = new Date(Date.UTC(year + 1, 0, 1));
-    const res = await prisma.transactions.findMany({
+    const session = await getServerSession(NEXT_AUTH_CONFIG);
+    if (!session) return false;
+    const endDate = new Date(Date.UTC(endYear, endMonth + 1, 1));
+    const startDate = new Date(
+      Date.UTC(endDate.getFullYear(), endDate.getMonth() - 7, 1)
+    );
+    const transactions = await prisma.transactions.findMany({
       where: {
-        userId: userId,
+        userId: session.user.userId,
         date: {
           gte: startDate,
           lt: endDate,
@@ -100,15 +112,32 @@ export async function getAllTransactionsByYear(userId: string, year: number) {
         userId: true,
         amount: true,
         date: true,
-        category: true,
         type: true,
-        note: true,
       },
       orderBy: { date: "desc" },
     });
-    if (res) {
-      return res;
+
+    if (transactions) {
+      const monthlySummary: {
+        [key: string]: { income: number; expense: number };
+      } = {};
+
+      transactions.forEach((tran) => {
+        const monthYear = `${tran.date.getUTCFullYear()}-${
+          tran.date.getUTCMonth() + 1
+        }`;
+        if (!monthlySummary[monthYear]) {
+          monthlySummary[monthYear] = { income: 0, expense: 0 };
+        }
+        if (tran.type.toLowerCase() === "income") {
+          monthlySummary[monthYear].income += tran.amount;
+        } else if (tran.type.toLowerCase() === "expense") {
+          monthlySummary[monthYear].expense += tran.amount;
+        }
+      });
+      return monthlySummary;
     }
+    return false;
   } catch (e) {
     console.log(e);
     return false;
