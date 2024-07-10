@@ -13,6 +13,8 @@ import {
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useRecoilValue } from "recoil";
 import {
@@ -135,6 +137,9 @@ export default function MonthlyPieChart() {
             </div>
           ) : (
             <PieChart>
+              <ChartTooltip
+                content={<ChartTooltipContent nameKey="category" hideLabel />}
+              />
               <Pie data={chartData} dataKey="amount" />
               <ChartLegend
                 content={<ChartLegendContent nameKey="category" />}
