@@ -63,10 +63,12 @@ export default function MonthlyPieChart() {
     const categoryMap: { [key: string]: number } = {};
 
     monthTransactions.forEach((transaction) => {
-      if (categoryMap[transaction.category]) {
-        categoryMap[transaction.category] += transaction.amount;
-      } else {
-        categoryMap[transaction.category] = transaction.amount;
+      if (transaction.type.toLocaleLowerCase() === "expense") {
+        if (categoryMap[transaction.category]) {
+          categoryMap[transaction.category] += transaction.amount;
+        } else {
+          categoryMap[transaction.category] = transaction.amount;
+        }
       }
     });
 
