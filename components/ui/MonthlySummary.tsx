@@ -14,20 +14,16 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
-const chartData = [
-  { month: "January", expense: 186, income: 80 },
-  { month: "February", expense: 305, income: 200 },
-  { month: "March", expense: 237, income: 120 },
-  { month: "April", expense: 73, income: 190 },
-  { month: "May", expense: 209, income: 130 },
-  { month: "June", expense: 214, income: 140 },
-];
+import React from "react";
+import { getExpenseAndIncome } from "@/app/api/transactions/actions/transactions";
+import { monthName } from "@/lib/misc";
+import { useRecoilValue } from "recoil";
+import { allTransactionsAtom } from "@/store/atoms/transactions";
 
 const chartConfig = {
   expense: {
     label: "Expense",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-5))",
   },
   income: {
     label: "Income",
@@ -36,13 +32,74 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function MonthlySummary() {
+  const [selectedEndMonth, setSelectedEndMonth] = React.useState(
+    new Date().getUTCMonth()
+  );
+  const [selectedEndYear, setSelectedEndYear] = React.useState(
+    new Date().getUTCFullYear()
+  );
+  const [selectedStartMonth, setSelectedStartMonth] = React.useState(
+    new Date(selectedEndYear, selectedEndMonth - 4).getUTCMonth()
+  );
+  const [selectedStartYear, setSelectedStartYear] = React.useState(
+    new Date(selectedEndYear, selectedEndMonth - 4).getUTCFullYear()
+  );
+  const [chartData, setChartData] = React.useState<
+    {
+      month: string;
+      expense: number;
+      income: number;
+    }[]
+  >([
+    { month: "", expense: 0, income: 0 },
+    { month: "", expense: 0, income: 0 },
+    { month: "", expense: 0, income: 0 },
+    { month: "", expense: 0, income: 0 },
+    { month: "", expense: 0, income: 0 },
+    { month: "", expense: 0, income: 0 },
+  ]);
+  const allTransactions = useRecoilValue(allTransactionsAtom);
+  async function callGetExpenseAndIncome() {
+    const res = await getExpenseAndIncome(selectedEndYear, selectedEndMonth);
+    if (res) {
+      const mappedResults = Object.entries(res).map(([key, value]) => {
+        return {
+          month: monthName[parseInt(key.split("-")[1])],
+          income: value.income,
+          expense: value.expense,
+        };
+      });
+      setChartData(mappedResults);
+    }
+  }
+  React.useEffect(() => {
+    callGetExpenseAndIncome();
+  }, [selectedEndYear, selectedEndMonth, allTransactions]);
   return (
     <Card className="flex flex-col dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 hover:bg-gray-100">
       <CardHeader className="items-center">
         <CardTitle>Monthly Income-Expense Summary</CardTitle>
         <CardDescription>
           <div className="flex justify-center items-center">
-            <button className="text-lg" onClick={() => {}}>
+            <button
+              className="text-lg"
+              onClick={() => {
+                setSelectedEndMonth(selectedStartMonth);
+                setSelectedEndYear(selectedStartYear);
+                setSelectedStartMonth(
+                  new Date(
+                    selectedStartYear,
+                    selectedStartMonth - 4
+                  ).getUTCMonth()
+                );
+                setSelectedStartYear(
+                  new Date(
+                    selectedStartYear,
+                    selectedStartMonth - 4
+                  ).getUTCFullYear()
+                );
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-4 h-4"
@@ -57,8 +114,31 @@ export default function MonthlySummary() {
                 />
               </svg>
             </button>
-            <h2 className="cursor-pointer mx-2">Jan,2024 - Jun,2024</h2>
-            <button className="text-lg" onClick={() => {}}>
+            <h2 className="cursor-pointer mx-2">
+              {monthName[selectedStartMonth] +
+                "," +
+                selectedStartYear +
+                " - " +
+                monthName[selectedEndMonth] +
+                "," +
+                selectedEndYear}
+            </h2>
+            <button
+              className="text-lg"
+              onClick={() => {
+                setSelectedStartMonth(selectedEndMonth);
+                setSelectedStartYear(selectedEndYear);
+                setSelectedEndMonth(
+                  new Date(selectedEndYear, selectedEndMonth + 6).getUTCMonth()
+                );
+                setSelectedEndYear(
+                  new Date(
+                    selectedEndYear,
+                    selectedEndMonth + 6
+                  ).getUTCFullYear()
+                );
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-4 h-4"
@@ -115,3 +195,13 @@ export default function MonthlySummary() {
     </Card>
   );
 }
+/*
+{
+  '2024-5': { income: 0, expense: 63 },
+  '2024-6': { income: 95518, expense: 52518 },
+  '2024-7': { income: 0, expense: 0 },
+  '2024-8': { income: 0, expense: 0 },
+  '2024-9': { income: 0, expense: 855 },
+  '2024-10': { income: 0, expense: 0 },
+  '2024-11': { income: 0, expense: 0 }
+} */

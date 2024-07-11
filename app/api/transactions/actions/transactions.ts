@@ -97,8 +97,22 @@ export async function getExpenseAndIncome(
     if (!session) return false;
     const endDate = new Date(Date.UTC(endYear, endMonth + 1, 1));
     const startDate = new Date(
-      Date.UTC(endDate.getFullYear(), endDate.getMonth() - 7, 1)
+      Date.UTC(endDate.getFullYear(), endDate.getMonth() - 6, 1)
     );
+
+    const monthlySummary: {
+      [key: string]: { income: number; expense: number };
+    } = {};
+
+    for (
+      let d = new Date(startDate);
+      d < endDate;
+      d.setUTCMonth(d.getUTCMonth() + 1)
+    ) {
+      const monthYear = `${d.getUTCFullYear()}-${d.getUTCMonth()}`;
+      monthlySummary[monthYear] = { income: 0, expense: 0 };
+    }
+
     const transactions = await prisma.transactions.findMany({
       where: {
         userId: session.user.userId,
@@ -118,17 +132,8 @@ export async function getExpenseAndIncome(
     });
 
     if (transactions) {
-      const monthlySummary: {
-        [key: string]: { income: number; expense: number };
-      } = {};
-
       transactions.forEach((tran) => {
-        const monthYear = `${tran.date.getUTCFullYear()}-${
-          tran.date.getUTCMonth() + 1
-        }`;
-        if (!monthlySummary[monthYear]) {
-          monthlySummary[monthYear] = { income: 0, expense: 0 };
-        }
+        const monthYear = `${tran.date.getUTCFullYear()}-${tran.date.getUTCMonth()}`;
         if (tran.type.toLowerCase() === "income") {
           monthlySummary[monthYear].income += tran.amount;
         } else if (tran.type.toLowerCase() === "expense") {
@@ -137,7 +142,7 @@ export async function getExpenseAndIncome(
       });
       return monthlySummary;
     }
-    return false;
+    return monthlySummary;
   } catch (e) {
     console.log(e);
     return false;
