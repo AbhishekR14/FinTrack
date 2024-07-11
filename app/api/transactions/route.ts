@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth";
 import {
   getAllTransactions,
   getAllTransactionsByMonth,
-  getAllTransactionsByYear,
 } from "./actions/transactions";
 import { getMonthNumber } from "@/lib/misc";
 
@@ -21,14 +20,6 @@ export async function GET(req: NextRequest) {
         session.user.id,
         parseInt(year),
         getMonthNumber(month)
-      );
-      if (transactions) {
-        return NextResponse.json(transactions, { status: 200 });
-      }
-    } else if (year) {
-      const transactions = await getAllTransactionsByYear(
-        session.user.id,
-        parseInt(year)
       );
       if (transactions) {
         return NextResponse.json(transactions, { status: 200 });
