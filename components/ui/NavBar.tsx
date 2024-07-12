@@ -120,12 +120,54 @@ export default function NavBar(props: navBarProps) {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="INR">INR</SelectItem>
-                        <SelectItem value="USD">USD</SelectItem>
-                        <SelectItem value="EUR">EUR</SelectItem>
-                        <SelectItem value="GBP">GBP</SelectItem>
-                        <SelectItem value="CAD">CAD</SelectItem>
-                        <SelectItem value="YEN">YEN</SelectItem>
+                        <SelectItem
+                          value="INR"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          INR
+                        </SelectItem>
+                        <SelectItem
+                          value="USD"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          USD
+                        </SelectItem>
+                        <SelectItem
+                          value="EUR"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          EUR
+                        </SelectItem>
+                        <SelectItem
+                          value="GBP"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          GBP
+                        </SelectItem>
+                        <SelectItem
+                          value="CAD"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          CAD
+                        </SelectItem>
+                        <SelectItem
+                          value="YEN"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          YEN
+                        </SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
