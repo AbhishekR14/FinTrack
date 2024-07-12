@@ -7,7 +7,7 @@ export const transactionSchema = z.object({
     .refine((value) => !isNaN(parseFloat(value)) && parseFloat(value) > 0, {
       message: "Amount must be a positive number",
     }),
-  category: z.string().nonempty("Category is required"),
+  category: z.string().min(1,"Category is required"),
   note: z.string().optional(),
   type: z.enum(["Expense", "Income"]),
   date: z.date(),

@@ -5,15 +5,19 @@ import prisma from "../../../../db";
 import { NEXT_AUTH_CONFIG } from "../../../../lib/authConfig";
 import { addTransactionType, updateTransactionType } from "../types";
 import { revalidatePath } from "next/cache";
+import { addTransactionSchema, updateTransactionSchema } from "../schema";
 
 export async function postTransaction(data: addTransactionType) {
   try {
     const session = await getServerSession(NEXT_AUTH_CONFIG);
     if (!session) return false;
-    const res = await prisma.transactions.create({ data });
-    if (res) {
-      revalidatePath("/home");
-      return true;
+    const { success } = addTransactionSchema.safeParse(data);
+    if (success) {
+      const res = await prisma.transactions.create({ data });
+      if (res) {
+        revalidatePath("/home");
+        return true;
+      }
     }
     return false;
   } catch (e) {
@@ -26,14 +30,18 @@ export async function putTransactions(data: updateTransactionType) {
   try {
     const session = await getServerSession(NEXT_AUTH_CONFIG);
     if (!session) return false;
-    const res = await prisma.transactions.update({
-      where: { id: data.id, userId: session.user.userId },
-      data,
-    });
-    if (res) {
-      revalidatePath("/home");
-      return true;
+    const { success } = updateTransactionSchema.safeParse(data);
+    if (success) {
+      const res = await prisma.transactions.update({
+        where: { id: data.id, userId: session.user.userId },
+        data,
+      });
+      if (res) {
+        revalidatePath("/home");
+        return true;
+      }
     }
+
     return false;
   } catch (e) {
     console.log(e);
