@@ -62,7 +62,8 @@ export default function AddTransactionButton(props: InputProps) {
     setSaveMessage("Saving...");
     const transactionData: addTransactionType = {
       userId: props.userId,
-      amount: parseFloat(data.amount),
+      //@ts-ignore
+      amount: parseFloat(data.amount * 100),
       category: data.category,
       type: data.type,
       note: data.note || "",

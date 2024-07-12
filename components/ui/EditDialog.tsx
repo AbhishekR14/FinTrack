@@ -67,7 +67,8 @@ export default function EditDialog({
     setSaveMessage("Saving...");
     const transactionData: updateTransactionType = {
       id: transaction?.id as string,
-      amount: parseFloat(data.amount),
+      //@ts-ignore
+      amount: parseFloat(data.amount * 100),
       category: data.category,
       type: data.type,
       note: data.note || "",

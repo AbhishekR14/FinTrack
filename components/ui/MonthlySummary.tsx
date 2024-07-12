@@ -19,6 +19,7 @@ import { getExpenseAndIncome } from "@/app/api/transactions/actions/transactions
 import { monthName } from "@/lib/misc";
 import { useRecoilValue } from "recoil";
 import { allTransactionsAtom } from "@/store/atoms/transactions";
+import { useSession } from "next-auth/react";
 
 const chartConfig = {
   expense: {
@@ -32,6 +33,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function MonthlySummary() {
+  const session = useSession();
   const [selectedEndMonth, setSelectedEndMonth] = React.useState(
     new Date().getUTCMonth()
   );
@@ -60,7 +62,13 @@ export default function MonthlySummary() {
   ]);
   const allTransactions = useRecoilValue(allTransactionsAtom);
   async function callGetExpenseAndIncome() {
-    const res = await getExpenseAndIncome(selectedEndYear, selectedEndMonth);
+    if (!session.data) return;
+    const res = await getExpenseAndIncome(
+      selectedEndYear,
+      selectedEndMonth,
+      //@ts-ignore
+      session.data?.user?.id
+    );
     if (res) {
       const mappedResults = Object.entries(res).map(([key, value]) => {
         return {
@@ -74,6 +82,7 @@ export default function MonthlySummary() {
   }
   React.useEffect(() => {
     callGetExpenseAndIncome();
+    console.log(chartData);
   }, [selectedEndYear, selectedEndMonth, allTransactions]);
   return (
     <Card className="flex flex-col dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 hover:bg-gray-100">

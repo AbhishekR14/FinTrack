@@ -83,7 +83,11 @@ export async function getAllTransactions(userId: string) {
       orderBy: { date: "desc" },
     });
     if (res) {
-      return res;
+      const updatedRes = res.map((transaction) => ({
+        ...transaction,
+        amount: transaction.amount / 100,
+      }));
+      return updatedRes;
     }
   } catch (e) {
     console.log(e);
@@ -93,7 +97,8 @@ export async function getAllTransactions(userId: string) {
 
 export async function getExpenseAndIncome(
   endYear: number,
-  endMonth: number
+  endMonth: number,
+  userId: string
 ): Promise<
   | false
   | {
@@ -101,8 +106,7 @@ export async function getExpenseAndIncome(
     }
 > {
   try {
-    const session = await getServerSession(NEXT_AUTH_CONFIG);
-    if (!session) return false;
+    if (!userId) return false;
     const endDate = new Date(Date.UTC(endYear, endMonth + 1, 1));
     const startDate = new Date(
       Date.UTC(endDate.getFullYear(), endDate.getMonth() - 6, 1)
@@ -120,10 +124,9 @@ export async function getExpenseAndIncome(
       const monthYear = `${d.getUTCFullYear()}-${d.getUTCMonth()}`;
       monthlySummary[monthYear] = { income: 0, expense: 0 };
     }
-
     const transactions = await prisma.transactions.findMany({
       where: {
-        userId: session.user.userId,
+        userId: userId,
         date: {
           gte: startDate,
           lt: endDate,
@@ -138,14 +141,13 @@ export async function getExpenseAndIncome(
       },
       orderBy: { date: "desc" },
     });
-
     if (transactions) {
       transactions.forEach((tran) => {
         const monthYear = `${tran.date.getUTCFullYear()}-${tran.date.getUTCMonth()}`;
         if (tran.type.toLowerCase() === "income") {
-          monthlySummary[monthYear].income += tran.amount;
+          monthlySummary[monthYear].income += tran.amount / 100;
         } else if (tran.type.toLowerCase() === "expense") {
-          monthlySummary[monthYear].expense += tran.amount;
+          monthlySummary[monthYear].expense += tran.amount / 100;
         }
       });
       return monthlySummary;
@@ -179,7 +181,11 @@ export async function getAllTransactionsByMonth(
       orderBy: { date: "desc" },
     });
     if (res) {
-      return res;
+      const updatedRes = res.map((transaction) => ({
+        ...transaction,
+        amount: transaction.amount / 100,
+      }));
+      return updatedRes;
     }
   } catch (e) {
     console.log(e);
