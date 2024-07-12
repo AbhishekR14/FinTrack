@@ -48,6 +48,8 @@ export default function NavBar(props: navBarProps) {
     };
   }, [isSelectOpen]);
 
+  const currencyOptions = ["INR", "USD", "EUR", "GBP", "CAD", "YEN"];
+
   return (
     <nav className="bg-gray-100 border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -101,6 +103,7 @@ export default function NavBar(props: navBarProps) {
                   <Select
                     value={selectedCurrency}
                     onValueChange={async (newValue) => {
+                      setIsDropdownOpen(false);
                       if (session.data?.user) {
                         const res = await setCurrency(
                           //@ts-ignore
@@ -109,91 +112,42 @@ export default function NavBar(props: navBarProps) {
                         );
                         if (res) {
                           setSelectedCurrency(newValue);
-                          setIsDropdownOpen(false);
                           setIsSelectOpen(false);
                         }
                       }
                     }}
                   >
-                    <SelectTrigger className="w-full px-4 border-none hover:bg-gray-100 dark:hover:bg-gray-600">
+                    <SelectTrigger className="w-full px-4 border-none hover:bg-gray-100 dark:hover:bg-gray-600 shadow-none">
                       <SelectValue placeholder={selectedCurrency} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem
-                          value="INR"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          INR
-                        </SelectItem>
-                        <SelectItem
-                          value="USD"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          USD
-                        </SelectItem>
-                        <SelectItem
-                          value="EUR"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          EUR
-                        </SelectItem>
-                        <SelectItem
-                          value="GBP"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          GBP
-                        </SelectItem>
-                        <SelectItem
-                          value="CAD"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          CAD
-                        </SelectItem>
-                        <SelectItem
-                          value="YEN"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          YEN
-                        </SelectItem>
+                        {currencyOptions.map((option) => (
+                          <SelectItem
+                            key={option}
+                            value={option}
+                            disabled={option === selectedCurrency}
+                          >
+                            {option}
+                          </SelectItem>
+                        ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
                 </div>
-                {isSelectOpen ? <ul className="py-2" aria-labelledby="user-menu-button">
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white rounded-md"                        
-                      >
-                        Sign out
-                      </a>
-                    </li>
-                  </ul> : <ul className="py-2" aria-labelledby="user-menu-button">
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white rounded-md"
-                        onClick={() => {
-                          signOut();
-                        }}
-                      >
-                        Sign out
-                      </a>
-                    </li>
-                  </ul>}
+                <ul className="py-2" aria-labelledby="user-menu-button">
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white rounded-md"
+                      onClick={() => {
+                        signOut();
+                      }}
+                    >
+                      Sign out
+                    </a>
+                  </li>
+                </ul>
               </div>
             )}
           </div>
