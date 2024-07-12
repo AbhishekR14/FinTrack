@@ -31,108 +31,12 @@ import {
 } from "@/components/ui/table";
 import { transactionsType } from "@/app/home/types";
 import { useRecoilValue } from "recoil";
-import { monthlyAllTransactionsAtom } from "@/store/atoms/transactions";
+import {
+  currency,
+  monthlyAllTransactionsAtom,
+} from "@/store/atoms/transactions";
 import EditDeleteDropdown from "./EditDeleteDropdown";
-
-export const columns: ColumnDef<transactionsType>[] = [
-  {
-    accessorKey: "date",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date
-          <CaretSortIcon className="ml-2 h-4 w-6" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="md:pl-4">{row.getValue("date")}</div>,
-  },
-  {
-    accessorKey: "amount",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Amount
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "INR",
-      }).format(amount);
-
-      return <div className="pl-4 font-medium">{formatted}</div>;
-    },
-  },
-  {
-    accessorKey: "category",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Category
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="capitalize pl-4">{row.getValue("category")}</div>
-    ),
-  },
-  {
-    accessorKey: "type",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Type
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="pl-4 capitalize">{row.getValue("type")}</div>
-    ),
-  },
-  {
-    accessorKey: "note",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Note
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="pl-4 capitalize">{row.getValue("note")}</div>
-    ),
-  },
-  {
-    id: "actions",
-    header: () => <div>Actions</div>,
-    cell: ({ row }) => {
-      return <EditDeleteDropdown row={row} />;
-    },
-  },
-];
+import { formattedAmount } from "@/lib/misc";
 
 export default function DetailedMonthlySummary({
   month,
@@ -149,6 +53,104 @@ export default function DetailedMonthlySummary({
     });
   const monthlyAllTransactions = useRecoilValue(monthlyAllTransactionsAtom);
   const [loadingText, setLoadingText] = React.useState("");
+  const selectedCurrency = useRecoilValue(currency);
+  const columns: ColumnDef<transactionsType>[] = [
+    {
+      accessorKey: "date",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Date
+            <CaretSortIcon className="ml-2 h-4 w-6" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => <div className="md:pl-4">{row.getValue("date")}</div>,
+    },
+    {
+      accessorKey: "amount",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Amount
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("amount"));
+        return (
+          <div className="pl-4 font-medium">
+            {formattedAmount(amount, selectedCurrency)}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "category",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Category
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="capitalize pl-4">{row.getValue("category")}</div>
+      ),
+    },
+    {
+      accessorKey: "type",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Type
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="pl-4 capitalize">{row.getValue("type")}</div>
+      ),
+    },
+    {
+      accessorKey: "note",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Note
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="pl-4 capitalize">{row.getValue("note")}</div>
+      ),
+    },
+    {
+      id: "actions",
+      header: () => <div>Actions</div>,
+      cell: ({ row }) => {
+        return <EditDeleteDropdown row={row} />;
+      },
+    },
+  ];
   React.useEffect(() => {
     if (loading) {
       setLoadingText("Loading your data...");

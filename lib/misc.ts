@@ -47,3 +47,11 @@ export function formatDateToString(dateString: string) {
   const date = new Date(dateString);
   return date.toDateString().split(" ").slice(1).join(" ").toUpperCase();
 }
+
+export function formattedAmount(amount: any, selectedCurreny: string): string {
+  const formatted = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: selectedCurreny,
+  }).format(amount);
+  return formatted;
+}

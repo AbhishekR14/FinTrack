@@ -82,7 +82,6 @@ export default function MonthlySummary() {
   }
   React.useEffect(() => {
     callGetExpenseAndIncome();
-    console.log(chartData);
   }, [selectedEndYear, selectedEndMonth, allTransactions]);
   return (
     <Card className="flex flex-col dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 hover:bg-gray-100">

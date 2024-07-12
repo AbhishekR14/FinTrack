@@ -1,11 +1,13 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import MonthPicker from "./monthpicker";
 import {
+  currency,
   monthlyAllTransactionsAtom,
   selectedMonthAtom,
   selectedYearAtom,
 } from "@/store/atoms/transactions";
 import React from "react";
+import { formattedAmount } from "@/lib/misc";
 
 type CategoryTransaction = {
   category: string;
@@ -22,6 +24,7 @@ const CurrentMonthSummary: React.FC = () => {
   const [transactionByCategory, setTransactionByCategory] = React.useState<
     CategoryTransaction[]
   >([]);
+  const selectedCurrency = useRecoilValue(currency);
 
   React.useEffect(() => {
     let incomeSum = 0;
@@ -116,11 +119,15 @@ const CurrentMonthSummary: React.FC = () => {
       <div className="mb-4">
         <div className="flex justify-between text-lg">
           <span>Income</span>
-          <span className="text-green-500 pr-2">₹{income.toFixed(2)}</span>
+          <span className="text-green-500 pr-2">
+            {formattedAmount(income.toFixed(2), selectedCurrency)}
+          </span>
         </div>
         <div className="flex justify-between text-lg">
           <span>Expense</span>
-          <span className="text-red-500 pr-2">₹{totalExpense.toFixed(2)}</span>
+          <span className="text-red-500 pr-2">
+            {formattedAmount(totalExpense.toFixed(2), selectedCurrency)}
+          </span>
         </div>
       </div>
       <div className="mb-4 h-52 pr-2 overflow-y-auto top-1/2 left-1/4">
@@ -131,7 +138,12 @@ const CurrentMonthSummary: React.FC = () => {
               className="flex justify-between pb-1"
             >
               <span>{transaction.category}</span>
-              <span>₹{transaction.amount.toFixed(2)}</span>
+              <span>
+                {formattedAmount(
+                  transaction.amount.toFixed(2),
+                  selectedCurrency
+                )}
+              </span>
             </div>
           );
         })}
@@ -144,7 +156,8 @@ const CurrentMonthSummary: React.FC = () => {
             balance < 0 ? "text-red-500" : "text-green-500"
           }`}
         >
-          {balance < 0 ? "-" : ""}₹{Math.abs(balance).toFixed(2)}
+          {balance < 0 ? "-" : ""}
+          {formattedAmount(Math.abs(balance).toFixed(2), selectedCurrency)}
         </span>
       </div>
     </div>

@@ -1,4 +1,5 @@
-import { atom } from "recoil";
+import { getCurrency } from "@/app/api/transactions/actions/currency";
+import { atom, selector } from "recoil";
 
 export const allTransactionsAtom = atom<
   | {
@@ -38,4 +39,21 @@ export const selectedMonthAtom = atom({
 export const selectedYearAtom = atom({
   key: "selectedYearAtom",
   default: new Date().getFullYear(),
+});
+
+export const currencySelector = selector({
+  key: "currencySelector",
+  get: async () => {
+    const res = await getCurrency();
+    if (res) {
+      return res.currency;
+    } else {
+      return "INR";
+    }
+  },
+});
+
+export const currency = atom({
+  key: "currency",
+  default: currencySelector,
 });
