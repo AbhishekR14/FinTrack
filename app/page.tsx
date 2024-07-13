@@ -1,18 +1,35 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/Spinner";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const Home = () => {
   const router = useRouter();
+  const session = useSession();
+  if (session) {
+    if (session.status === "loading") {
+      return (
+        <div className="flex justify-center items-center h-screen">
+          <Spinner />
+        </div>
+      );
+    }
+  }
+
+  if (session.status === "authenticated") {
+    router.push("/home");
+    return <div className="h-screen"></div>;
+  }
   return (
     <div>
       <nav className="bg-gray-100 border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
-            href="/home"
+            href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img src="/Logo.png" className="h-8" alt="FinTrack Logo" />
@@ -31,7 +48,6 @@ const Home = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section className="text-center py-16">
         <div className="container mx-auto">
           <div className="text-4xl font-bold mb-4">
@@ -39,7 +55,7 @@ const Home = () => {
           </div>
           <div className="text-lg mb-8">
             Manage your finances, save money, and achieve your financial goals
-            with SpendTracker.
+            with FinTrack.
           </div>
           <Button>Take a Demo</Button>
           <Button className="ml-4" onClick={() => router.push("/signup")}>

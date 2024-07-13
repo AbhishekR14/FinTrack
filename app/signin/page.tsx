@@ -26,7 +26,7 @@ const Signin: React.FC = () => {
   }
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="m-2 flex lg:flex-row w-full max-w-lg bg-gray-800 rounded-lg shadow-md">
+      <div className="m-2 flex lg:flex-row w-full max-w-md bg-gray-800 rounded-lg shadow-md">
         <div className="flex items-center justify-center w-full p-8">
           <div className="w-full max-w-md space-y-8">
             <div className="flex flex-col items-center">
