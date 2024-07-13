@@ -4,12 +4,12 @@ import {
   passwordAtom,
   loadingAtom,
   nameAtom,
-} from "../store/atoms/auth";
+} from "@/store/atoms/auth";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
-import { signup } from "./api/user/actions/user";
 import { signIn, useSession } from "next-auth/react";
-import Spinner from "../components/ui/Spinner";
+import Spinner from "@/components/ui/Spinner";
+import { signup } from "../api/user/actions/user";
 
 const Signup: React.FC = () => {
   const setemail = useSetRecoilState(emailAtoms);
@@ -36,18 +36,34 @@ const Signup: React.FC = () => {
       <div className="m-2 flex flex-col lg:flex-row w-full max-w-4xl bg-gray-800 rounded-lg shadow-md">
         <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-8 bg-gradient-to-r from-indigo-700 to-purple-700 text-white rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none">
           <div className="flex items-center justify-center w-16 h-16 mb-4 bg-white rounded-full">
-            <img src="/Logo.png" alt="FinTrack Logo" className="w-10 h-10" />
+            <img
+              src="/Logo.png"
+              alt="FinTrack Logo"
+              className="w-10 h-10"
+              onClick={() => {
+                router.push("/");
+              }}
+            />
           </div>
-          <button className="mb-2 text-4xl font-bold text-center">
+          <button
+            className="mb-2 text-4xl font-bold text-center"
+            onClick={() => {
+              router.push("/");
+            }}
+          >
             FinTrack
           </button>
           <div className="mb-4 text-lg text-center">
             Finance Tracking Made Easy!
           </div>
-          <div className="mb-4 text-lg text-center">
+          <div className="mb-4 text-lg text-center hidden md:block">
             Track your monthly spending and more. Review your transactions,
             track your spending by category and receive monthly insights that
             help you better understand your money habits.
+          </div>
+          <div className="mb-4 text-lg text-center md:hidden">
+            Track your monthly spending review your transactions by category and
+            receive monthly insights.
           </div>
           <div className="flex mt-auto text-sm">
             Already have an account?{" "}

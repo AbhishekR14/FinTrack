@@ -30,7 +30,9 @@ const Signin: React.FC = () => {
         <div className="flex items-center justify-center w-full p-8">
           <div className="w-full max-w-md space-y-8">
             <div className="flex flex-col items-center">
-              <h2 className="text-3xl font-extrabold text-white">Sign In</h2>
+              <button className="text-3xl font-extrabold text-white">
+                Sign In
+              </button>
             </div>
             <form className="mt-8">
               <div className="rounded-md shadow-sm">
@@ -99,7 +101,7 @@ const Signin: React.FC = () => {
                   <button
                     className="pl-2 underline cursor-pointer"
                     onClick={() => {
-                      router.push("/");
+                      router.push("/signup");
                     }}
                   >
                     Signup

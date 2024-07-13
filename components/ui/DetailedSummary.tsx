@@ -184,7 +184,7 @@ export function DetailedSummary({ user }: { user: any }) {
   return (
     <div className="w-full p-4 dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 ">
       <div className="flex items-center py-4">
-        <h3 className="text-xl mb-2 dark:border-cyan-50">All Transactions</h3>
+        <div className="text-xl mb-2 dark:border-cyan-50">All Transactions</div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

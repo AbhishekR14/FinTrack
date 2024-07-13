@@ -122,7 +122,7 @@ export default function MonthlySummary() {
                 />
               </svg>
             </button>
-            <h2 className="cursor-pointer mx-2">
+            <div className="cursor-pointer mx-2">
               {monthName[selectedStartMonth] +
                 "," +
                 selectedStartYear +
@@ -130,7 +130,7 @@ export default function MonthlySummary() {
                 monthName[selectedEndMonth] +
                 "," +
                 selectedEndYear}
-            </h2>
+            </div>
             <button
               className="text-lg"
               onClick={() => {
