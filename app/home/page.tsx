@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Spinner from "../../components/ui/Spinner";
 import NavBar from "@/components/ui/NavBar";
@@ -21,6 +21,7 @@ import AddTransactionButton from "@/components/ui/AddTransactionButton";
 import { loadTransactions } from "@/store/atoms/misc";
 import { formatDateToString } from "@/lib/misc";
 import { getTransactionsType } from "../api/transactions/types";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const session = useSession();
@@ -33,6 +34,7 @@ export default function Home() {
   const [monthInfoLoading, setMonthInfoLoading] = React.useState(true);
   const reloadTransactions = useRecoilValue(loadTransactions);
   const setReloadTransactions = useSetRecoilState(loadTransactions);
+  const [isDemo, setIsDemo] = React.useState(false);
 
   async function callGetAllTransactionsByMonth(month: number, year: number) {
     const res = await getAllTransactionsByMonth(
@@ -58,6 +60,9 @@ export default function Home() {
   React.useEffect(() => {
     if (session.status === "authenticated") {
       callGetAllTransactionsByMonth(selectedMonth, selectedYear);
+      if (session.data?.user?.email === "Demo@Fintrack.com") {
+        setIsDemo(true);
+      }
     }
   }, [selectedMonth, selectedYear, reloadTransactions, session.status]);
 
@@ -80,6 +85,20 @@ export default function Home() {
         userName={session.data?.user?.name || ""}
         email={session.data?.user?.email || ""}
       />
+      {isDemo && (
+        <div className="m-4 mb-0 text-center text-red-500">
+          This is a Demo Account. It is used just for demonstration purposes.
+          <br></br>
+          <Button
+            className="mt-2"
+            onClick={() => {
+              signOut({ callbackUrl: "/signup" });
+            }}
+          >
+            Create your own account
+          </Button>
+        </div>
+      )}
       <div className="p-8">
         <div className="flex mb-4">
           <AddTransactionButton

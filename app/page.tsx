@@ -3,21 +3,20 @@
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/Spinner";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const Home = () => {
   const router = useRouter();
   const session = useSession();
-  if (session) {
-    if (session.status === "loading") {
-      return (
-        <div className="flex justify-center items-center h-screen">
-          <Spinner />
-        </div>
-      );
-    }
+  const [loading, setLoading] = React.useState(false);
+  if (session.status === "loading" || loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
   }
 
   if (session.status === "authenticated") {
@@ -57,7 +56,24 @@ const Home = () => {
             Manage your finances, save money, and achieve your financial goals
             with FinTrack.
           </div>
-          <Button>Take a Demo</Button>
+          <Button
+            onClick={async () => {
+              setLoading(true);
+              const res = await signIn("credentials", {
+                email: "Demo@Fintrack.com",
+                password: "hsbtdtg52534fh",
+                redirect: false,
+              });
+              if (!res?.error) {
+                setLoading(false);
+                router.push("/");
+              } else {
+                setLoading(false);
+              }
+            }}
+          >
+            Take a Demo
+          </Button>
           <Button className="ml-4" onClick={() => router.push("/signup")}>
             Get Started for Free
           </Button>
