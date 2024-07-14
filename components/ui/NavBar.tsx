@@ -66,14 +66,14 @@ export default function NavBar(props: navBarProps) {
           <div className="relative" ref={dropdownRef}>
             <button
               type="button"
-              className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
               id="user-menu-button"
               aria-expanded={isDropdownOpen}
               onClick={toggleDropdown}
             >
               <span className="sr-only">Open user menu</span>
               <img
-                className="w-8 h-8 rounded-full"
+                className="w-9 h-9 rounded-full"
                 src={props.profilePicture}
                 alt="user photo"
               />
