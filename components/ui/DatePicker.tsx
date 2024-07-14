@@ -40,7 +40,6 @@ export function DatePicker({ date, setDate }: DatePickerProps) {
           selected={date}
           //@ts-ignore
           onSelect={setDate}
-          initialFocus
         />
       </PopoverContent>
     </Popover>
