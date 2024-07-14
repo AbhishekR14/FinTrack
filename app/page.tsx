@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import Spinner from "@/components/ui/Spinner";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { signIn, useSession } from "next-auth/react";
@@ -80,32 +81,34 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="features" className="py-16 dark:bg-gray-900 dark:text-white">
+      <section
+        id="features"
+        className="py-16 dark:bg-gray-900 dark:text-white bg-gray-100"
+      >
         <div className="container mx-auto">
           <div className="text-3xl font-bold text-center mb-12">Features</div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black">
+            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black">
               <div className="text-xl font-semibold mb-2">Track Spending</div>
               <div>Monitor your daily, weekly, and monthly expenses.</div>
-            </div>
-            <div className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black">
-              <div className="text-xl font-semibold mb-2">Set Budgets</div>
-              <div>Set and achieve your budget goals to save money.</div>
-            </div>
-            <div className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black">
+            </Card>
+            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black">
               <div className="text-xl font-semibold mb-2">
                 Financial Reports
               </div>
-              <div>Get detailed financial reports and insights.</div>
-            </div>
+              <div>Get detailed financial reports and graphs.</div>
+            </Card>
+            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black">
+              <div className="text-xl font-semibold mb-2">
+                Multi Currency Support
+              </div>
+              <div>Supports all famous currencies in the world.</div>
+            </Card>
           </div>
         </div>
       </section>
 
-      <section
-        id="get-started"
-        className="py-16 text-center dark:bg-gray-900 dark:text-white"
-      >
+      <section id="get-started" className="py-16 text-center dark:text-white">
         <div className="container mx-auto">
           <div className="text-3xl font-bold mb-4">
             Ready to take control of your finances?
