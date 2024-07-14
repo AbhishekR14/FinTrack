@@ -12,7 +12,7 @@ model Users{
   name String
   email String @unique
   password String
-  categories String @default("Travel,Gifts,Eating Out,Shopping")
+  categories String @default("Travel,Gifts,Eating Out,Shopping,Salary")
   currency String @default("INR")
   transactions Transactions[]
 }
