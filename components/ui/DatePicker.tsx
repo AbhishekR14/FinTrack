@@ -1,25 +1,21 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
+import * as React from "react"
+import { CalendarIcon } from "@radix-ui/react-icons"
+import { format } from "date-fns"
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/components/ui/popover"
 
-export function DatePicker({
-  date,
-  setDate,
-}: {
-  date: Date;
-  setDate: React.Dispatch<React.SetStateAction<Date>>;
-}) {
+export function DatePicker() {
+  const [date, setDate] = React.useState<Date>()
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -38,11 +34,10 @@ export function DatePicker({
         <Calendar
           mode="single"
           selected={date}
-          //@ts-ignore
           onSelect={setDate}
           initialFocus
         />
       </PopoverContent>
     </Popover>
-  );
+  )
 }
