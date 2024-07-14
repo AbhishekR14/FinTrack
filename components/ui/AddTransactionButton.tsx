@@ -20,7 +20,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DatePicker } from "./DatePicker";
 import { SelectCategory } from "./SelectCategory";
@@ -56,18 +55,25 @@ export default function AddTransactionButton(props: InputProps) {
   const [saveMessage, setSaveMessage] = React.useState("Save");
   const [transactionType, setTransactionType] = React.useState(props.type);
   const changed = useSetRecoilState(loadTransactions);
-  const categories = useRecoilValue(categoryStringAtom); //This is required
+  const categories = useRecoilValue(categoryStringAtom); // This is required
 
   const onSubmit = async (data: TransactionFormValues) => {
     setSaveMessage("Saving...");
+
+    const adjustedDate = new Date(
+      Date.UTC(
+        data.date.getFullYear(),
+        data.date.getMonth(),
+        data.date.getDate()
+      )
+    );
     const transactionData: addTransactionType = {
       userId: props.userId,
-      //@ts-ignore
-      amount: parseFloat(data.amount * 100),
+      amount: parseFloat(data.amount) * 100,
       category: data.category,
       type: data.type,
       note: data.note || "",
-      date: data.date,
+      date: adjustedDate,
     };
     try {
       const res = await postTransaction(transactionData);

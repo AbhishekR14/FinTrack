@@ -64,15 +64,21 @@ export default function EditDialog({
   const changed = useSetRecoilState(loadTransactions);
 
   const onSubmit = async (data: EditFormValues) => {
+    const adjustedDate = new Date(
+      Date.UTC(
+        data.date.getFullYear(),
+        data.date.getMonth(),
+        data.date.getDate()
+      )
+    );
     setSaveMessage("Saving...");
     const transactionData: updateTransactionType = {
       id: transaction?.id as string,
-      //@ts-ignore
-      amount: parseFloat(data.amount * 100),
+      amount: parseFloat(data.amount) * 100,
       category: data.category,
       type: data.type,
       note: data.note || "",
-      date: data.date,
+      date: adjustedDate,
     };
     try {
       const res = await putTransactions(transactionData);
