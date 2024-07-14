@@ -86,11 +86,22 @@ export default function Home() {
         email={session.data?.user?.email || ""}
       />
       {isDemo && (
-        <div className="m-4 mb-0 text-center text-red-500">
-          This is a Demo Account. It is used just for demonstration purposes.
-          <br></br>
+        <div className="relative m-4 mb-0 text-center p-6 dark:bg-gray-800 dark:text-white rounded-lg shadow-lg bg-gray-50 hover:bg-gray-100 hover:dark:bg-gray-700">
+          <button
+            className="absolute top-2 right-3 text-xl text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100"
+            onClick={() => {
+              setIsDemo(false);
+            }}
+          >
+            ×
+          </button>
+          <div className="mb-4 text-2xl">Welcome to demo account!</div>
+          <div className="text-red-500">
+            You are logged in as a demo user with sample data generated to show
+            you how things might look like.
+          </div>
           <Button
-            className="mt-2"
+            className="mt-2 text-white"
             onClick={() => {
               signOut({ callbackUrl: "/signup" });
             }}

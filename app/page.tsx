@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Spinner from "@/components/ui/Spinner";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -19,10 +19,15 @@ const Home = () => {
       </div>
     );
   }
-
-  if (session.status === "authenticated") {
+  if (
+    session.status === "authenticated" &&
+    session.data?.user?.email !== "Demo@Fintrack.com"
+  ) {
     router.push("/home");
     return <div className="h-screen"></div>;
+  }
+  if (session.data?.user?.email === "Demo@Fintrack.com") {
+    signOut({ redirect: false });
   }
   return (
     <div>
@@ -59,18 +64,12 @@ const Home = () => {
           </div>
           <Button
             onClick={async () => {
-              setLoading(true);
               const res = await signIn("credentials", {
                 email: "Demo@Fintrack.com",
                 password: "hsbtdtg52534fh",
-                redirect: false,
+                callbackUrl: "/home",
+                redirect: true,
               });
-              if (!res?.error) {
-                setLoading(false);
-                router.push("/");
-              } else {
-                setLoading(false);
-              }
             }}
           >
             Take a Demo
@@ -86,23 +85,46 @@ const Home = () => {
         className="py-16 dark:bg-gray-900 dark:text-white bg-gray-100"
       >
         <div className="container mx-auto">
-          <div className="text-3xl font-bold text-center mb-12">Features</div>
+          <div className="text-3xl font-bold text-center mb-6">Features</div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black">
+            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black dark:hover:bg-gray-700 hover:bg-gray-50">
               <div className="text-xl font-semibold mb-2">Track Spending</div>
               <div>Monitor your daily, weekly, and monthly expenses.</div>
             </Card>
-            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black">
+            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black dark:hover:bg-gray-700 hover:bg-gray-50">
               <div className="text-xl font-semibold mb-2">
                 Financial Reports
               </div>
-              <div>Get detailed financial reports and graphs.</div>
+              <div>Get detailed financial reports and interactive graphs.</div>
             </Card>
-            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black">
+            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black dark:hover:bg-gray-700 hover:bg-gray-50">
+              <div className="text-xl font-semibold mb-2">
+                Modern and Sleek UI
+              </div>
+              <div>FinTrack has a very modern and sleek design.</div>
+            </Card>
+          </div>
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black dark:hover:bg-gray-700 hover:bg-gray-50">
+              <div className="text-xl font-semibold mb-2">
+                Custom Categories
+              </div>
+              <div>Add custom categories to organize your transactions.</div>
+            </Card>
+            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black dark:hover:bg-gray-700 hover:bg-gray-50">
+              <div className="text-xl font-semibold mb-2">
+                Interactive Graphs
+              </div>
+              <div>
+                Visualize your financial reports with interactive graphs and pie
+                charts.
+              </div>
+            </Card>
+            <Card className="p-6 shadow-lg rounded dark:bg-gray-800 dark:text-white bg-white text-black dark:hover:bg-gray-700 hover:bg-gray-50">
               <div className="text-xl font-semibold mb-2">
                 Multi Currency Support
               </div>
-              <div>Supports all famous currencies in the world.</div>
+              <div>Supports all top currencies in the world.</div>
             </Card>
           </div>
         </div>

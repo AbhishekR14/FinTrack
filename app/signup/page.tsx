@@ -7,7 +7,7 @@ import {
 } from "@/store/atoms/auth";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Spinner from "@/components/ui/Spinner";
 import { signup } from "../api/user/actions/user";
 import { Button } from "@/components/ui/button";
@@ -29,9 +29,15 @@ const Signup: React.FC = () => {
       </div>
     );
   }
-  if (session.status === "authenticated") {
+  if (
+    session.status === "authenticated" &&
+    session.data?.user?.email !== "Demo@Fintrack.com"
+  ) {
     router.push("/home");
     return <div className="h-screen"></div>;
+  }
+  if (session.data?.user?.email === "Demo@Fintrack.com") {
+    signOut({ redirect: false });
   }
   return (
     <div className="min-h-screen">
