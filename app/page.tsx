@@ -43,7 +43,10 @@ const Home = () => {
             </span>
           </a>
           <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <Button className="md:mx-2" onClick={() => router.push("/signin")}>
+            <Button
+              className="md:mx-2 text-white"
+              onClick={() => router.push("/signin")}
+            >
               Sign In
             </Button>
             <div className="mx-2">
@@ -63,6 +66,7 @@ const Home = () => {
             with FinTrack.
           </div>
           <Button
+            className="text-white"
             onClick={async () => {
               const res = await signIn("credentials", {
                 email: "Demo@Fintrack.com",
@@ -74,7 +78,10 @@ const Home = () => {
           >
             Take a Demo
           </Button>
-          <Button className="ml-4" onClick={() => router.push("/signup")}>
+          <Button
+            className="ml-4 text-white"
+            onClick={() => router.push("/signup")}
+          >
             Get Started for Free
           </Button>
         </div>
@@ -135,7 +142,9 @@ const Home = () => {
           <div className="text-3xl font-bold mb-4">
             Ready to take control of your finances?
           </div>
-          <Button onClick={() => router.push("/signup")}>Sign Up Now</Button>
+          <Button className="text-white" onClick={() => router.push("/signup")}>
+            Sign Up Now
+          </Button>
         </div>
       </section>
     </div>

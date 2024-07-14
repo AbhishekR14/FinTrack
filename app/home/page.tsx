@@ -101,7 +101,7 @@ export default function Home() {
             you how things might look like.
           </div>
           <Button
-            className="mt-2"
+            className="mt-2 text-white"
             onClick={() => {
               signOut({ callbackUrl: "/signup" });
             }}
