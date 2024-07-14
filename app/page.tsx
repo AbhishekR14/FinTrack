@@ -12,6 +12,7 @@ const Home = () => {
   const router = useRouter();
   const session = useSession();
   const [loading, setLoading] = React.useState(false);
+  const [demoButtonText, setDemoButtonText] = React.useState("Take a Demo");
   if (session.status === "loading" || loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -68,15 +69,21 @@ const Home = () => {
           <Button
             className="text-white"
             onClick={async () => {
-              const res = await signIn("credentials", {
-                email: "Demo@Fintrack.com",
-                password: "hsbtdtg52534fh",
-                callbackUrl: "/home",
-                redirect: true,
-              });
+              try {
+                setDemoButtonText("Loading...");
+                const res = await signIn("credentials", {
+                  email: "Demo@Fintrack.com",
+                  password: "hsbtdtg52534fh",
+                  callbackUrl: "/home",
+                  redirect: true,
+                });
+                setDemoButtonText("Take a Demo");
+              } catch {
+                setDemoButtonText("Take a Demo");
+              }
             }}
           >
-            Take a Demo
+            {demoButtonText}
           </Button>
           <Button
             className="ml-4 text-white"
