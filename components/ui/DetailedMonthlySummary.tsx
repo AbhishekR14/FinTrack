@@ -48,7 +48,7 @@ export default function DetailedMonthlySummary({
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
-      category: false,
+      note: false,
       type: false,
     });
   const monthlyAllTransactions = useRecoilValue(monthlyAllTransactionsAtom);
