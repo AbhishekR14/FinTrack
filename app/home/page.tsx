@@ -136,12 +136,12 @@ export default function Home() {
               loading={monthInfoLoading}
             />
           </div>
-          <div className="col-span-1">
-            <MonthlySummary />
-          </div>
           <div className="col-span-1 ">
             <MonthlyPieChart />
           </div>
+          <div className="col-span-1">
+            <MonthlySummary />
+          </div>          
         </div>
         <div className="mt-8 ">
           <DetailedSummary user={session.data?.user} />
