@@ -28,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSession } from "next-auth/react";
 
 type EditDialogProps = {
   isOpen: boolean;
@@ -62,6 +63,7 @@ export default function EditDialog({
   });
   const [saveMessage, setSaveMessage] = React.useState("Save Changes");
   const changed = useSetRecoilState(loadTransactions);
+  const session = useSession();
 
   const onSubmit = async (data: EditFormValues) => {
     if (saveMessage === "Save Changes") {
@@ -158,7 +160,8 @@ export default function EditDialog({
                 <>
                   <div className="col-span-3">
                     <SelectCategory
-                      userId={"change this"}
+                      //@ts-ignore
+                      userId={session.data?.user?.id as string}
                       value={field.value}
                       setValue={field.onChange}
                     />
