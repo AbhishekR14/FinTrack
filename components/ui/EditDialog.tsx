@@ -253,9 +253,3 @@ export default function EditDialog({
     </Dialog>
   );
 }
-/*<Input
-                  id="type"
-                  placeholder="Enter Type"
-                  className="col-span-3"
-                  {...field}
-                />*/
