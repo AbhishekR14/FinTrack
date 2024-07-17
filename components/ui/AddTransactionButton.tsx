@@ -58,51 +58,53 @@ export default function AddTransactionButton(props: InputProps) {
   const categories = useRecoilValue(categoryStringAtom); // This is required
 
   const onSubmit = async (data: TransactionFormValues) => {
-    setSaveMessage("Saving...");
+    if (saveMessage === "Save") {
+      setSaveMessage("Saving...");
 
-    const adjustedDate = new Date(
-      Date.UTC(
-        data.date.getFullYear(),
-        data.date.getMonth(),
-        data.date.getDate()
-      )
-    );
-    const transactionData: addTransactionType = {
-      userId: props.userId,
-      amount: parseFloat(data.amount) * 100,
-      category: data.category,
-      type: data.type,
-      note: data.note || "",
-      date: adjustedDate,
-    };
-    try {
-      const res = await postTransaction(transactionData);
-      if (res === true) {
-        setSaveMessage("Saved!");
-        changed((prev: number) => prev + 1);
-        setTimeout(() => {
-          setSaveMessage("Save");
-          setIsOpen(false);
-          reset({
-            amount: "",
-            category: "",
-            note: "",
-            type: props.type as "Expense" | "Income",
-            date: new Date(),
-          });
-        }, 2000);
-      } else {
+      const adjustedDate = new Date(
+        Date.UTC(
+          data.date.getFullYear(),
+          data.date.getMonth(),
+          data.date.getDate()
+        )
+      );
+      const transactionData: addTransactionType = {
+        userId: props.userId,
+        amount: parseFloat(data.amount) * 100,
+        category: data.category,
+        type: data.type,
+        note: data.note || "",
+        date: adjustedDate,
+      };
+      try {
+        const res = await postTransaction(transactionData);
+        if (res === true) {
+          setSaveMessage("Saved!");
+          changed((prev: number) => prev + 1);
+          setTimeout(() => {
+            setSaveMessage("Save");
+            setIsOpen(false);
+            reset({
+              amount: "",
+              category: "",
+              note: "",
+              type: props.type as "Expense" | "Income",
+              date: new Date(),
+            });
+          }, 2000);
+        } else {
+          setSaveMessage("Errored! Try Again");
+          setTimeout(() => {
+            setSaveMessage("Save");
+          }, 3000);
+        }
+      } catch (e) {
+        console.log(e);
         setSaveMessage("Errored! Try Again");
         setTimeout(() => {
           setSaveMessage("Save");
         }, 3000);
       }
-    } catch (e) {
-      console.log(e);
-      setSaveMessage("Errored! Try Again");
-      setTimeout(() => {
-        setSaveMessage("Save");
-      }, 3000);
     }
   };
 

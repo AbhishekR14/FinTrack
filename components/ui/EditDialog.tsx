@@ -64,43 +64,45 @@ export default function EditDialog({
   const changed = useSetRecoilState(loadTransactions);
 
   const onSubmit = async (data: EditFormValues) => {
-    const adjustedDate = new Date(
-      Date.UTC(
-        data.date.getFullYear(),
-        data.date.getMonth(),
-        data.date.getDate()
-      )
-    );
-    setSaveMessage("Saving...");
-    const transactionData: updateTransactionType = {
-      id: transaction?.id as string,
-      amount: parseFloat(data.amount) * 100,
-      category: data.category,
-      type: data.type,
-      note: data.note || "",
-      date: adjustedDate,
-    };
-    try {
-      const res = await putTransactions(transactionData);
-      if (res === true) {
-        setSaveMessage("Saved!");
-        onClose();
-        changed((prev: number) => prev + 1);
-        setTimeout(() => {
-          setSaveMessage("Save Changes");
-        }, 2000);
-      } else {
+    if (saveMessage === "Save Changes") {
+      const adjustedDate = new Date(
+        Date.UTC(
+          data.date.getFullYear(),
+          data.date.getMonth(),
+          data.date.getDate()
+        )
+      );
+      setSaveMessage("Saving...");
+      const transactionData: updateTransactionType = {
+        id: transaction?.id as string,
+        amount: parseFloat(data.amount) * 100,
+        category: data.category,
+        type: data.type,
+        note: data.note || "",
+        date: adjustedDate,
+      };
+      try {
+        const res = await putTransactions(transactionData);
+        if (res === true) {
+          setSaveMessage("Saved!");
+          onClose();
+          changed((prev: number) => prev + 1);
+          setTimeout(() => {
+            setSaveMessage("Save Changes");
+          }, 2000);
+        } else {
+          setSaveMessage("Errored! Try Again");
+          setTimeout(() => {
+            setSaveMessage("Save Changes");
+          }, 3000);
+        }
+      } catch (e) {
+        console.log(e);
         setSaveMessage("Errored! Try Again");
         setTimeout(() => {
           setSaveMessage("Save Changes");
         }, 3000);
       }
-    } catch (e) {
-      console.log(e);
-      setSaveMessage("Errored! Try Again");
-      setTimeout(() => {
-        setSaveMessage("Save Changes");
-      }, 3000);
     }
   };
   return (
