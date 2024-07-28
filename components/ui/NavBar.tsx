@@ -13,6 +13,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { setCurrency } from "@/app/api/transactions/actions/currency";
+import Spinner from "./Spinner";
 
 export default function NavBar(props: navBarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -21,6 +22,7 @@ export default function NavBar(props: navBarProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const currencySelectorRef = useRef<HTMLDivElement>(null);
   const session = useSession();
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -49,7 +51,13 @@ export default function NavBar(props: navBarProps) {
   }, [isSelectOpen]);
 
   const currencyOptions = ["INR", "USD", "EUR", "GBP", "CAD", "YEN"];
-
+  if (showSpinner) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
   return (
     <nav className="bg-gray-100 border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -100,6 +108,7 @@ export default function NavBar(props: navBarProps) {
                   <Select
                     value={selectedCurrency}
                     onValueChange={async (newValue) => {
+                      setShowSpinner(true);
                       setIsDropdownOpen(false);
                       if (session.data?.user) {
                         const res = await setCurrency(
@@ -110,8 +119,10 @@ export default function NavBar(props: navBarProps) {
                         if (res) {
                           setSelectedCurrency(newValue);
                           setIsSelectOpen(false);
+                          setShowSpinner(false);
                         }
                       }
+                      setShowSpinner(false);
                     }}
                   >
                     <SelectTrigger className="w-full px-4 border-none hover:bg-gray-100 dark:hover:bg-gray-600 shadow-none">

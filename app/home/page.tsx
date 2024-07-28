@@ -141,7 +141,7 @@ export default function Home() {
           </div>
           <div className="col-span-1">
             <MonthlySummary />
-          </div>          
+          </div>
         </div>
         <div className="mt-8 ">
           <DetailedSummary user={session.data?.user} />
