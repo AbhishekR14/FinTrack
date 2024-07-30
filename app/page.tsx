@@ -36,11 +36,10 @@ const Home = () => {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
             href="/"
-            className="flex items-center space-x-2 rtl:space-x-reverse"
+            className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img src="/Logo.png" className="h-6" alt="FinTrack Logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              FinTrack
+            <span className="mx-2 self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              <img src="/Logo-full.png" className="h-7" alt="FinTrack Logo" />
             </span>
           </a>
           <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
