@@ -1,4 +1,4 @@
-FinTrack helps you track your daily finance. The mordern UI design and very visual charts and graphs help you understand your expenses better.
+FinTrack helps you track your daily finances. The modern UI design and very visual charts and graphs help you understand your expenses better.
 
 [Visit FinTrack](https://fintrack-app.vercel.app)
 
